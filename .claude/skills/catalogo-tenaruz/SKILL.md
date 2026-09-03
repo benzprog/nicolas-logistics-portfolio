@@ -126,21 +126,42 @@ código, o los bloques de variantes de color (3000K / 4000K / 6000K).
 
 Los márgenes son **36.84 pt** desde los bordes del panel, de los dos lados.
 
-## Agregar un producto sin sacar otro
+## Insertar una ficha o moverla de sección
 
-Reemplazar una ficha por otra (lo más común) no mueve nada: la paginación queda igual.
+Reemplazar una ficha por otra no mueve nada: la paginación queda igual. Insertar una ficha
+nueva, o mover una de sección, sí corre la numeración y toca varias páginas.
 
-Insertar una ficha nueva es bastante más trabajo, porque se corre la numeración. Si hace
-falta, tené presente el checklist completo:
+Como cada página lleva dos fichas, sumar una ficha implica una media página libre en algún
+lado — no hay forma de evitarlo salvo reflowear la sección entera. Conviene dejar el hueco
+donde se lea como decisión de diseño y no como error. El catálogo ya tiene un patrón para
+eso: la página del TUBO T5 es una ficha sola con los paneles a toda la altura. Se replica
+pintando la mitad libre con los mismos paneles del slot ocupado (blanco de un lado, oscuro
+del otro, según la orientación de ese slot) y queda sin costura visible.
 
-1. La ficha nueva en su slot.
-2. La fila en el índice (página 2), con su número de página.
-3. Los números de página de **todas** las páginas siguientes (el recuadro de la esquina).
-4. Los números de página del índice de todo lo que se corrió.
-5. La lista de la portadilla de sección (páginas 3, 12, 17) y su contador `N CÓDIGOS`.
+Checklist completo, en este orden:
 
-Antes de empezar, preguntá si prefieren reemplazar una ficha existente: suele ser lo que
-quieren y evita todo esto.
+1. **La ficha** en su slot (o la página nueva entera).
+2. **La media página libre**, pintada como continuación de los paneles.
+3. **El índice** (página 2): las filas se re-arman con paso de 24.0 pt, la divisoria 9.6 pt
+   debajo de cada línea de base, y los números alineados a la derecha en x 543.55. Si un
+   producto pasa de una sección a otra, el encabezado de sección se corre un renglón, así
+   que conviene repintar el bloque desde la primera fila que se mueve para abajo.
+4. **Los números de página** de todo lo que corrió: el recuadro va en x 581–612, y 0–25.2,
+   con el número centrado en x 596.5. Ojo: **la portada y la página de contacto no llevan
+   número** — si se los agregás, se nota.
+5. **La portadilla de la sección** (páginas 3, 12, 17): la lista usa `/F11` 6.92 pt con
+   tracking +0.594, paso 13.83 pt, y el fondo es **crema `#f1ede8`**, no blanco. Actualizá
+   también el contador `N CÓDIGOS` sumando o restando los códigos del producto.
+6. **El índice del final** (si el producto se movió) — verificá que la última fila siga
+   entrando en la página.
+
+Para crear una página nueva alcanza con un `Dictionary` de tipo `/Page` cuyo `/Resources`
+apunte al `/Font` de otra página, insertarlo con `pdf.pages.insert(i, pikepdf.Page(obj))` y
+pintarle los dos paneles a toda la altura. El logo del panel oscuro se coloca con la imagen
+recortada del original (`Slot.logo_pos` trae la posición de cada slot).
+
+Al terminar, comprobá la numeración de punta a punta: es el error más fácil de que se
+escape.
 
 ## Sobre los datos del producto
 

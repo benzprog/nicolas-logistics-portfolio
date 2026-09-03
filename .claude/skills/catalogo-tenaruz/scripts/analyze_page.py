@@ -77,7 +77,9 @@ def read_runs(pdf, page_index):
         text = text.replace("\t", " ")  # el glifo de espacio está mapeado a U+0009
         a, _b, _c, d, e, f = r["ctm"]
         x = a * r["start"][0] + e
-        y = d * (-r["start"][1]) + f  # el Tm de este documento invierte la y
+        # wkhtmltopdf escribe con el Tm invertido (d<0); el contenido agregado por la skill
+        # usa un Tm normal. Se soportan las dos convenciones.
+        y = (d * -r["start"][1] + f) if d < 0 else (d * r["start"][1] + f)
         tracks = []
         for i in range(1, len(r["glyphs"])):
             prev = int(r["glyphs"][i - 1][0], 16)

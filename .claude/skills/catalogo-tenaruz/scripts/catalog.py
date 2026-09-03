@@ -40,9 +40,11 @@ class Slot:
     caption_center_x: float
     caption_y: float
     footer_y: float
+    logo_pos: tuple         # (x, y, w, h) del logo TENARUZ en el panel oscuro
     photo_center: tuple = (153.0, 196.0)
     page_tab: tuple = (581.0, 0.0, 31.0, 25.2)
-    page_num_pos: tuple = (594.39, 14.61)
+    page_num_center: float = 596.5      # el número va centrado en el recuadro
+    page_num_y: float = 14.61
 
 
 BOTTOM = Slot(
@@ -66,11 +68,12 @@ BOTTOM = Slot(
     caption_center_x=153.0,
     caption_y=88.37,
     footer_y=30.75,
+    logo_pos=(207.72, 347.04, 67.32, 18.0),
 )
 
 # La mitad superior espeja los paneles: blanco a la izquierda, oscuro a la derecha.
-# Medido sobre la ficha MR16 de la página 5. Las filas de la tabla y los textos están
-# verificados; accent_bar y row_rules son derivados -> confirmalos con analyze_page.py.
+# Medido sobre la ficha MR16 de la página 5 y verificado píxel a píxel al construir la
+# página del SPOT: líneas de tabla, etiquetas y logo caen exactamente donde el original.
 TOP = Slot(
     name="superior",
     dark_panel=(306, 396, 306, 396),
@@ -80,19 +83,20 @@ TOP = Slot(
     value_right=269.17,
     title_y=739.56,
     subtitle_y=722.27,
-    accent_bar=(36.74, 708.48, 129.96, 1.08),
+    accent_bar=(36.72, 708.84, 130.30, 1.44),
     desc_y=690.00,
     desc_leading=10.95,
     row_baselines=[643.90, 629.49, 615.08, 600.68, 585.69,
                    571.29, 556.88, 542.47, 528.07, 513.66],
-    row_rules=[638.44, 624.04, 609.64, 595.24, 580.84,
-               566.44, 552.04, 537.64, 523.24, 508.84],
+    row_rules=[638.46, 624.06, 609.66, 595.26, 580.86,
+               566.46, 552.06, 537.66, 523.26, 508.86],
     code_y=488.88,
     subcode_y=479.66,
     caption_center_x=459.0,
-    caption_y=484.0,
+    caption_y=484.37,
     footer_y=426.64,
     photo_center=(459.0, 592.0),
+    logo_pos=(513.84, 743.04, 67.32, 18.0),
 )
 
 
@@ -113,6 +117,7 @@ class Catalog:
     RULE = (237, 237, 237)
     DARK = (30, 30, 30)
     WHITE = (255, 255, 255)
+    CREAM = (241, 237, 232)   # fondo de las portadillas de sección (págs 3, 12, 17)
     RULE_W = 0.576
 
     def __init__(self, path, font_page=4):

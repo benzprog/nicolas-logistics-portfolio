@@ -112,8 +112,9 @@ def build(cat, page, slot, prod, photo_path, photo_width=210.0):
 
     # 7. El recuadro con el número de página quedó tapado por el panel blanco
     f.append(cat.rect(*slot.page_tab, cat.TITLE))
-    f.append(cat.show(prod["numero_pagina"], *st["numero"][:2], *slot.page_num_pos,
-                      st["numero"][2], st["numero"][3]))
+    f.append(cat.show_center(prod["numero_pagina"], *st["numero"][:2],
+                             slot.page_num_center, slot.page_num_y,
+                             st["numero"][2], st["numero"][3]))
     return "\n".join(f)
 
 
