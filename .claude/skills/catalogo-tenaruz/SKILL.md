@@ -196,6 +196,20 @@ Cosas que muerden en un reflow:
 - **Después de un reflow, `analyze_page.py` deja de ver el texto de las fichas** porque queda
   dentro de los Form XObjects. Para verificar contenido usá `pdftotext`, que sí los recorre.
 
+## Portadillas de sección
+
+Las portadillas (LÁMPARAS, ARTEFACTOS, FUENTES) son páginas crema con eyebrow, título,
+lista de productos y contador `N CÓDIGOS`. En el diseño original el bloque era chico y
+quedaba flotando en la página; se reescaló con un mismo factor para las tres, así los
+títulos coinciden entre secciones y el texto queda acorde al tamaño de la hoja.
+
+El reescalado se hace dibujando la página original como Form XObject con una matriz de
+escala (`scripts/scale_dividers.py`): crece todo en proporción exacta, sin retocar textos.
+El factor lo limita la portadilla más larga —conviene recalcularlo si cambia la cantidad de
+productos— y el bloque se posiciona con el margen izquierdo de siempre (68 pt) y centrado
+en vertical. Recortá la zona de contenido antes de dibujar, para que el recuadro de
+numeración escalado no se cuele, y repintalo aparte.
+
 ## Escribir caracteres que los subsets no traen
 
 Los subsets solo incluyen los glifos ya usados en el documento. La `w` minúscula, por
