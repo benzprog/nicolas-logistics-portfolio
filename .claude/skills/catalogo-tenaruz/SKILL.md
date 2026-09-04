@@ -163,6 +163,48 @@ recortada del original (`Slot.logo_pos` trae la posición de cada slot).
 Al terminar, comprobá la numeración de punta a punta: es el error más fácil de que se
 escape.
 
+## Mover fichas sin rehacerlas (reflow)
+
+Cuando hay que reordenar media sección, no rehagas las fichas: convertí la página de origen
+en un Form XObject y dibujá cada panel recortado y trasladado. La ficha conserva tipografía,
+fotos, chips y colores exactamente como estaban.
+
+```python
+form = pdf.make_indirect(pikepdf.Page(pdf.pages[i]).as_form_xobject())
+# clip en coordenadas del destino, después la traslación
+frag = f"q {x} {y} {w} {h} re W n 1 0 0 1 {dx} {dy} cm /Src Do Q"
+```
+
+Pasar del slot superior al inferior (o al revés) es un espejo: el panel blanco cruza de un
+lado al otro y el oscuro hace lo contrario, así que cada panel se traslada por separado
+(±306 en x, ±396 en y). Los márgenes internos de los dos slots son idénticos, por eso el
+contenido cae justo. `scripts/reflow_sections.py` es el reflow completo del catálogo 2026 y
+sirve de plantilla.
+
+Cosas que muerden en un reflow:
+
+- **El recuadro de numeración viaja dentro del panel blanco del slot inferior.** Al mover ese
+  panel hay que taparlo en su nueva posición y repintar el de la página. Tapá con margen: en
+  páginas ya editadas puede haber dos recuadros superpuestos con geometrías distintas.
+- **No todas las fichas usan el panel oscuro.** Varias (apliques, estacas) van sobre crema
+  `#f1ede8` y con el logo en su versión oscura. Al mover el panel entero eso viene solo,
+  pero si armás una ficha a mano tenés que mirar de qué color es su panel.
+- **Las fotos suelen estar recortadas por una máscara del estado gráfico, no por un SMask
+  de la imagen.** Si sacás el XObject de imagen y lo dibujás suelto, aparece su fondo (crema
+  o blanco). Copiá y escalá la región desde la página de origen en vez de recolocar la
+  imagen, salvo que compruebes que el JPEG ya trae el fondo correcto.
+- **Después de un reflow, `analyze_page.py` deja de ver el texto de las fichas** porque queda
+  dentro de los Form XObjects. Para verificar contenido usá `pdftotext`, que sí los recorre.
+
+## Escribir caracteres que los subsets no traen
+
+Los subsets solo incluyen los glifos ya usados en el documento. La `w` minúscula, por
+ejemplo, no existe en ninguna de las tres fuentes (ningún texto del catálogo la usa), así que
+`www.tenaruz.com` no se puede componer con ellas. `scripts/simplefont.py` embebe Poppins
+Regular completa como fuente simple con WinAnsiEncoding para esos casos; al ser la misma
+familia, el resultado combina perfecto con el resto. Verificá siempre con
+`Catalog.check_glyphs()` antes de dar por hecho que un texto entra.
+
 ## Sobre los datos del producto
 
 Las fichas nuevas salen del PDF de diseño del packaging (`TZSPOT...design.pdf` y similares),

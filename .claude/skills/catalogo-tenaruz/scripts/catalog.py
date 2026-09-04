@@ -42,7 +42,7 @@ class Slot:
     footer_y: float
     logo_pos: tuple         # (x, y, w, h) del logo TENARUZ en el panel oscuro
     photo_center: tuple = (153.0, 196.0)
-    page_tab: tuple = (581.0, 0.0, 31.0, 25.2)
+    page_tab: tuple = (581.04, 1.8, 30.6, 30.6)   # cuadrado, medido en una página sin tocar
     page_num_center: float = 596.5      # el número va centrado en el recuadro
     page_num_y: float = 14.61
 
