@@ -196,6 +196,30 @@ Cosas que muerden en un reflow:
 - **Después de un reflow, `analyze_page.py` deja de ver el texto de las fichas** porque queda
   dentro de los Form XObjects. Para verificar contenido usá `pdftotext`, que sí los recorre.
 
+## Cambiar el color de fondo de un panel
+
+Una sección puede quedar con paneles de producto mezclados: unos negros `#1e1e1e` y otros
+crema `#f1ede8`. Para unificarlos no hace falta rehacer las fichas.
+
+El problema es que la foto no se puede reubicar sola: está recortada por una máscara del
+estado gráfico y, sacada de contexto, aparece con su fondo original. Además el logo y los
+códigos están pensados para el color del panel — sobre crema el logo va en su versión
+oscura y los grises son otros.
+
+`scripts/panel_a_crema.py` lo resuelve sin tocar nada del contenido: dibuja la página como
+Form XObject, tapa el panel con crema y vuelve a dibujar el original **recortado a una
+placa interior**. El logo, las fotos y los códigos quedan dentro de esa placa, con su fondo
+negro y sus colores originales, y alrededor queda el margen crema. Un margen de **24 pt**
+deja el logo cómodo adentro en los dos slots (el logo llega a x 275 en el inferior y a
+y 761 en el superior).
+
+Para saber qué paneles son de cada color, muestreá el marco del panel en un render —
+el centro tiene la foto y el logo. El panel de producto es el **superior derecho** y el
+**inferior izquierdo**.
+
+Esto sirve cuando la foto está tomada sobre negro. Al revés no funciona: una foto tomada
+sobre crema no se puede poner sobre negro sin recortar el producto del fondo.
+
 ## Portadillas de sección
 
 Las portadillas (LÁMPARAS, ARTEFACTOS, FUENTES) son páginas crema con eyebrow, título,
