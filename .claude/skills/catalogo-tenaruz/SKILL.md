@@ -199,26 +199,69 @@ Cosas que muerden en un reflow:
 ## Cambiar el color de fondo de un panel
 
 Una sección puede quedar con paneles de producto mezclados: unos negros `#1e1e1e` y otros
-crema `#f1ede8`. Para unificarlos no hace falta rehacer las fichas.
+crema `#f1ede8`. Para unificarlos no hace falta rehacer las fichas, pero **no alcanza con
+pintar el panel**: hay cuatro cosas atadas al color de fondo.
 
-El problema es que la foto no se puede reubicar sola: está recortada por una máscara del
-estado gráfico y, sacada de contexto, aparece con su fondo original. Además el logo y los
-códigos están pensados para el color del panel — sobre crema el logo va en su versión
-oscura y los grises son otros.
+1. el relleno del panel                 `#1e1e1e` -> `#f1ede8`
+2. el gris de los códigos bajo la foto  `#c9c9c9` -> `#6d6d6d`
+3. el logo TENARUZ                      versión blanca -> versión oscura
+4. **la foto**, que trae el fondo negro cocido en el JPEG
 
-`scripts/panel_a_crema.py` lo resuelve sin tocar nada del contenido: dibuja la página como
-Form XObject, tapa el panel con crema y vuelve a dibujar el original **recortado a una
-placa interior**. El logo, las fotos y los códigos quedan dentro de esa placa, con su fondo
-negro y sus colores originales, y alrededor queda el margen crema. Un margen de **24 pt**
-deja el logo cómodo adentro en los dos slots (el logo llega a x 275 en el inferior y a
-y 761 en el superior).
+`scripts/panel_a_crema.py` hace las cuatro. Los tres primeros son reemplazos dentro del
+content stream del Form XObject; el cuarto lo resuelve `scripts/recorte_fondo.py`.
 
-Para saber qué paneles son de cada color, muestreá el marco del panel en un render —
-el centro tiene la foto y el logo. El panel de producto es el **superior derecho** y el
-**inferior izquierdo**.
+Cuidados:
 
-Esto sirve cuando la foto está tomada sobre negro. Al revés no funciona: una foto tomada
-sobre crema no se puede poner sobre negro sin recortar el producto del fondo.
+- **Los forms se comparten entre páginas.** S15, por ejemplo, lo usan la 13 (mitad de
+  arriba) y la 14 (mitad de abajo). Editarlo en el lugar cambia las dos, así que la página
+  que se toca se lleva una copia propia del form, de su `/Resources` y de su `/XObject`.
+- **`Stream(pdf, datos, **kwargs)` vuelve a anteponer `/` a cada clave**, así que copiar el
+  diccionario del form por kwargs deja claves `//BBox` y el visor tira "XObject subtype is
+  missing". Copiá las claves después de crear el stream.
+- El documento escribe los colores con 9 decimales en las páginas originales y con 6 en las
+  que se agregaron después. Contemplá las dos escrituras.
+
+## Recortar el fondo de una foto de producto
+
+Las fotos de los paneles oscuros tienen el fondo `#1e1e1e` cocido en el JPEG y **no** traen
+SMask (el SMask que aparece en esas páginas es el del logo). Para pasarlas a crema hay que
+recortarlas: `scripts/recorte_fondo.py`.
+
+Lo que hace que salga bien:
+
+- **Umbral alto** (14 sobre 255). El JPEG deja anillos alrededor del contorno; con un umbral
+  bajo esos píxeles de fondo entran en la silueta y quedan como dientes negros, muy visibles
+  al 300 dpi.
+- **Rellenar huecos.** El producto es macizo, así que `binary_fill_holes` recupera las zonas
+  que coinciden con el fondo. Es lo que permite recortar un spot negro sobre negro.
+- **Limar con disco, no con cuadrado**, y con radio chico: el radio lo limita la parte más
+  fina de la foto (el cable del spot de 12V, ~7 px), así que la apertura va con radio 2.
+- **No promediar al recomponer.** Si lo observado es `obs = producto*a + fondo*(1-a)`, sobre
+  el crema queda `obs + (crema - fondo)*(1-a)`. Eso respeta el antialias del borde sin dejar
+  orla oscura, y funciona aunque la máscara no sea perfecta.
+
+Verificá siempre a 300 dpi contra el original: los dientes de la silueta no se ven a 100.
+
+Al revés no funciona: una foto tomada sobre crema no se puede poner sobre negro sin recortar
+el producto del fondo.
+
+## Tapar un texto no lo borra
+
+Reemplazar un texto pintándole un rectángulo encima y escribiendo el nuevo lo saca de la
+vista, pero el viejo **sigue en la capa de texto**: aparece al copiar y pegar, al buscar y en
+cualquier extractor. En la página de contacto llegaron a convivir así el número de
+administración que se había pedido borrar, los teléfonos viejos y el horario viejo.
+
+`scripts/limpiar_capa_texto.py` borra los bloques `BT...ET` cuyo texto decodificado coincide
+con los que ya no van. Dos cosas:
+
+- Decodificá siguiendo el `/Fxx Tf` vigente dentro del bloque. Cada subset tiene su propio
+  mapa CID -> unicode; mezclarlos da texto falso que parece corrupción del archivo.
+- Borrá sólo del stream original de la página (índice 2). Los siguientes son las capas de
+  corrección y son las que hay que conservar; el mismo texto puede estar en las dos.
+
+Los rectángulos que tapaban se dejan: pintan el color de fondo. La verificación es que el
+render quede idéntico y que `pdftotext` ya no devuelva los textos viejos.
 
 ## Portadillas de sección
 
