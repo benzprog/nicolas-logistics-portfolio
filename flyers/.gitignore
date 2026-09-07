@@ -1,2 +1,3 @@
-flyer.html
+_*.html
 *.pdf
+__pycache__/
