@@ -3,6 +3,7 @@
 Es la reconstrucción del flyer original que venía como imagen. Se apoya en la
 curiosidad ("conocé los precios") y deja el beneficio más abajo.
 """
+import pana_logo
 from flyer_common import AMARILLO, FACES, NEGRO, logo, render, svg
 
 SALIDA = "PANA_septiembre_A"
@@ -25,11 +26,6 @@ body {{ width: 210mm; height: 297mm; background: {NEGRO}; color: #fff;
 .hoja {{ padding: 18mm 16mm 15mm; height: 100%; display: flex; flex-direction: column; }}
 
 .top {{ display: flex; justify-content: space-between; align-items: center; }}
-.marca .nombre {{ font-size: 46px; font-weight: 300; letter-spacing: 15px; line-height: 1; }}
-.marca .bajo {{ display: flex; align-items: center; gap: 7px; margin-top: 7px; }}
-.marca .puntos {{ display: flex; gap: 7px; }}
-.marca .puntos i {{ width: 3.5px; height: 3.5px; border-radius: 50%; background: #cfcfcf; }}
-.marca .sub {{ font-size: 12px; font-weight: 300; letter-spacing: 2.5px; color: #cfcfcf; }}
 .tz {{ width: 168px; display: block; }}
 
 h1 {{ font-size: 55px; font-weight: 700; line-height: 1.08; letter-spacing: -0.8px;
@@ -73,13 +69,7 @@ hr {{ border: 0; border-top: 1px solid #262626; margin: 36px 0 0; }}
 </style></head><body><div class="hoja">
 
   <div class="top">
-    <div class="marca">
-      <div class="nombre">PANA</div>
-      <div class="bajo">
-        <div class="puntos"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="sub">iluminación</div>
-      </div>
-    </div>
+    {pana_logo.svg("#FFFFFF", 62)}
     <img class="tz" src="{logo('tenaruz_blanco.png')}" alt="Tenaruz">
   </div>
 

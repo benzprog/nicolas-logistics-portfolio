@@ -6,6 +6,7 @@ montos de envío como fichas escaneables en vez de párrafos, y cierra con un
 pedido de acción concreto. El fondo crema es el mismo de las portadillas del
 catálogo TENARUZ, así que sigue leyéndose como la misma marca.
 """
+import pana_logo
 from flyer_common import AMARILLO, FACES, NEGRO, logo, render, svg
 
 SALIDA = "PANA_septiembre_B"
@@ -37,11 +38,6 @@ body {{ width: 210mm; height: 297mm; background: {CREMA}; color: {NEGRO};
 .hoja {{ padding: 15mm 14mm 13mm; height: 100%; display: flex; flex-direction: column; }}
 
 .top {{ display: flex; justify-content: space-between; align-items: center; }}
-.marca .nombre {{ font-size: 34px; font-weight: 300; letter-spacing: 11px; line-height: 1; }}
-.marca .bajo {{ display: flex; align-items: center; gap: 6px; margin-top: 6px; }}
-.marca .puntos {{ display: flex; gap: 6px; }}
-.marca .puntos i {{ width: 3px; height: 3px; border-radius: 50%; background: {APAGADO}; }}
-.marca .sub {{ font-size: 10.5px; font-weight: 300; letter-spacing: 2.2px; color: {APAGADO}; }}
 .tz {{ width: 168px; display: block; }}
 
 .kicker {{ font-size: 13.5px; font-weight: 600; letter-spacing: 4.2px; color: {APAGADO};
@@ -83,13 +79,7 @@ h1 .marcador {{ background: {AMARILLO}; padding: 0 12px; margin-left: -12px;
 </style></head><body><div class="hoja">
 
   <div class="top">
-    <div class="marca">
-      <div class="nombre">PANA</div>
-      <div class="bajo">
-        <div class="puntos"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="sub">iluminación</div>
-      </div>
-    </div>
+    {pana_logo.svg(NEGRO, 62)}
     <img class="tz" src="{logo('tenaruz_negro.png')}" alt="Tenaruz">
   </div>
 

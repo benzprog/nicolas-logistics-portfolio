@@ -28,10 +28,17 @@ propio catálogo: se rasteriza la zona del logo a 1200 dpi y se pasa la luminanc
 canal alfa, así que sirve sobre cualquier fondo. Blanco para la A (fondo negro),
 negro para la B (fondo crema) — en las dos la idea es la misma, que contraste.
 
-El lockup de PANA todavía está compuesto con Poppins y **no son las letras reales**
-del logo. Falta el archivo original (PNG con transparencia o SVG); cuando esté, va a
-`logos/` y se reemplaza el bloque `.marca` de cada variante por un `<img>`, igual que
-el de Tenaruz.
+`pana_logo.py` dibuja el lockup de PANA como SVG. Es de trazo uniforme, así que se
+construye con `stroke` sobre las líneas medias en vez de contornear cada letra: los
+empalmes salen exactos y el grosor se cambia en un solo lugar. `svg(color, alto)`
+devuelve el bloque listo, en el color que haga falta.
+
+**Es un trazado a ojo, no el archivo original.** El logo llegó como imagen pegada en
+el chat, que no baja a disco, y la web de la marca no es alcanzable desde acá. Las
+proporciones (altura de mayúscula 130, trazo 22, radios de los hombros) salieron de
+medir la imagen. Si alguna curva no cierra con el original, se corrige ahí y listo; y
+si aparece el archivo real (SVG o PNG con transparencia), va a `logos/` y se cambia
+la llamada a `pana_logo.svg(...)` por un `<img>`, igual que el de Tenaruz.
 
 ## Qué separa a las dos versiones
 
