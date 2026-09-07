@@ -47,12 +47,20 @@ ICONOS = {
         <circle cx="8" cy="12" r=".9" fill="currentColor" stroke="none"/>
         <circle cx="12" cy="12" r=".9" fill="currentColor" stroke="none"/>
         <circle cx="16" cy="12" r=".9" fill="currentColor" stroke="none"/>""",
-    "apreton": """<path d="M11 17l2 2a1 1 0 1 0 3-3"/>
-        <path d="M14 14l2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/>
-        <path d="M21 3l1 11h-2"/>
-        <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/>
-        <path d="M3 4h8"/>""",
 }
+
+
+LOGOS = BASE / "logos"
+
+
+def logo(archivo):
+    """El logo como data URI, para que el HTML quede autocontenido.
+
+    Los TENARUZ salen del propio catálogo, rasterizados a 1200 dpi y pasados a
+    alfa: son el logo real, no una reconstrucción tipográfica.
+    """
+    b64 = base64.b64encode((LOGOS / archivo).read_bytes()).decode()
+    return f"data:image/png;base64,{b64}"
 
 
 def svg(nombre, tam, color, grosor=1.7):

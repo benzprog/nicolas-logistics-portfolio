@@ -6,7 +6,7 @@ montos de envío como fichas escaneables en vez de párrafos, y cierra con un
 pedido de acción concreto. El fondo crema es el mismo de las portadillas del
 catálogo TENARUZ, así que sigue leyéndose como la misma marca.
 """
-from flyer_common import AMARILLO, FACES, NEGRO, render, svg
+from flyer_common import AMARILLO, FACES, NEGRO, logo, render, svg
 
 SALIDA = "PANA_septiembre_B"
 
@@ -42,8 +42,7 @@ body {{ width: 210mm; height: 297mm; background: {CREMA}; color: {NEGRO};
 .marca .puntos {{ display: flex; gap: 6px; }}
 .marca .puntos i {{ width: 3px; height: 3px; border-radius: 50%; background: {APAGADO}; }}
 .marca .sub {{ font-size: 10.5px; font-weight: 300; letter-spacing: 2.2px; color: {APAGADO}; }}
-.fecha {{ border: 1.3px solid {NEGRO}; border-radius: 100px; padding: 8px 18px;
-          font-size: 12.5px; font-weight: 600; letter-spacing: 2.6px; }}
+.tz {{ width: 168px; display: block; }}
 
 .kicker {{ font-size: 13.5px; font-weight: 600; letter-spacing: 4.2px; color: {APAGADO};
            margin-top: 52px; }}
@@ -91,10 +90,10 @@ h1 .marcador {{ background: {AMARILLO}; padding: 0 12px; margin-left: -12px;
         <div class="sub">iluminación</div>
       </div>
     </div>
-    <div class="fecha">SEPTIEMBRE 2026</div>
+    <img class="tz" src="{logo('tenaruz_negro.png')}" alt="Tenaruz">
   </div>
 
-  <div class="kicker">LISTA DE PRECIOS TENARUZ</div>
+  <div class="kicker">PRECIOS DE SEPTIEMBRE 2026</div>
   <h1>Comprá<br><span class="marcador">sin mínimo</span></h1>
 
   <p class="bajada">En Pana Iluminación acompañamos a quienes comercializan y distribuyen

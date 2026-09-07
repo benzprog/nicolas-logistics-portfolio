@@ -21,11 +21,24 @@ Requiere Playwright con Chromium (`/opt/pw-browsers/...`). La imagen se captura 
 triple de tamaño y recién ahí se reduce con Lanczos: dejar que Chromium rasterice
 directo al tamaño final ensucia los bordes del texto.
 
+## Logos
+
+`logos/tenaruz_blanco.png` y `logos/tenaruz_negro.png` son el logo real, sacado del
+propio catálogo: se rasteriza la zona del logo a 1200 dpi y se pasa la luminancia a
+canal alfa, así que sirve sobre cualquier fondo. Blanco para la A (fondo negro),
+negro para la B (fondo crema) — en las dos la idea es la misma, que contraste.
+
+El lockup de PANA todavía está compuesto con Poppins y **no son las letras reales**
+del logo. Falta el archivo original (PNG con transparencia o SVG); cuando esté, va a
+`logos/` y se reemplaza el bloque `.marca` de cada variante por un `<img>`, igual que
+el de Tenaruz.
+
 ## Qué separa a las dos versiones
 
 |  | A | B |
 |---|---|---|
 | Fondo | negro | crema, el de las portadillas del catálogo |
+| Logos | PANA + Tenaruz en blanco | PANA + Tenaruz en negro |
 | Titular | "Conocé nuestros precios de septiembre" | "Comprá sin mínimo" |
 | Apuesta | curiosidad: el beneficio aparece más abajo | beneficio adelante |
 | Envíos | tres frases corridas | tres fichas con el monto grande a la derecha |
