@@ -180,16 +180,40 @@ hr {{ border: 0; border-top: 1px solid #262626; margin: 28px 0 0; }}
 (BASE / "flyer.html").write_text(HTML, encoding="utf-8")
 
 
+CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+SALIDA = "PANA_precios_septiembre"
+
+# A4 en px CSS a 96 dpi. Se captura al triple y después se reduce con Lanczos:
+# el texto queda mucho más limpio que dejando que Chromium rasterice al tamaño final.
+ANCHO_CSS, ALTO_CSS = 794, 1123
+ESCALA = 3
+ANCHO_FINAL = 1080          # WhatsApp recomprime a ~1600 px de lado mayor
+
+
 def render():
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
-        b = p.chromium.launch(executable_path="/opt/pw-browsers/chromium-1194/chrome-linux/chrome")
-        pg = b.new_page()
+        b = p.chromium.launch(executable_path=CHROME)
+        pg = b.new_page(viewport={"width": ANCHO_CSS, "height": ALTO_CSS},
+                        device_scale_factor=ESCALA)
         pg.goto(f"file://{BASE / 'flyer.html'}")
-        pg.pdf(path=str(BASE / "PANA_precios_septiembre.pdf"), format="A4",
-               print_background=True, margin={"top": "0", "bottom": "0", "left": "0", "right": "0"})
+        pg.pdf(path=str(BASE / f"{SALIDA}.pdf"), format="A4", print_background=True,
+               margin={"top": "0", "bottom": "0", "left": "0", "right": "0"})
+        pg.screenshot(path=str(BASE / "_full.png"), full_page=True)
         b.close()
-    print("PDF listo:", BASE / "PANA_precios_septiembre.pdf")
+
+    from PIL import Image
+    grande = Image.open(BASE / "_full.png").convert("RGB")
+    alto = round(ANCHO_FINAL * grande.height / grande.width)
+    chico = grande.resize((ANCHO_FINAL, alto), Image.LANCZOS)
+    # JPEG sin submuestreo de croma: WhatsApp recomprime igual, pero partiendo de
+    # una imagen limpia el amarillo sobre negro no se ensucia.
+    chico.save(BASE / f"{SALIDA}.jpg", "JPEG", quality=92, subsampling=0, optimize=True)
+    chico.save(BASE / f"{SALIDA}.png", "PNG", optimize=True)
+    (BASE / "_full.png").unlink()
+
+    print(f"imagen: {SALIDA}.jpg / .png  ({ANCHO_FINAL}x{alto})")
+    print(f"PDF:    {SALIDA}.pdf")
 
 
 if __name__ == "__main__":
