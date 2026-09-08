@@ -25,9 +25,15 @@ export function PanaMark({ className }: { className?: string }) {
         <path d="M13.4 25.4h5.2" />
         <path d="M14.2 28h3.6" />
       </svg>
-      <div className="flex flex-col leading-none">
-        <span className="font-display text-[15px] font-semibold tracking-tight">PANA</span>
-        <span className="text-muted-foreground text-[10px] tracking-[0.18em] uppercase">
+      {/*
+        El interlineado va suelto a propósito: con leading-none, la tilde de
+        "GESTIÓN" se monta sobre el nombre de arriba.
+      */}
+      <div className="flex flex-col gap-0.5">
+        <span className="font-display text-[15px] leading-none font-semibold tracking-tight">
+          PANA
+        </span>
+        <span className="text-muted-foreground text-[10px] leading-none tracking-[0.18em] uppercase">
           Gestión
         </span>
       </div>

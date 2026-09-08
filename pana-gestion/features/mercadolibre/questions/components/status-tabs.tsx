@@ -29,7 +29,9 @@ export function StatusTabs({ current }: { current: QuestionFilterStatus }) {
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
       }}
     >
-      <TabsList>
+      {/* Cuatro pestañas no entran en un teléfono angosto: que se puedan
+          desplazar es mejor que recortarlas. */}
+      <TabsList className="max-w-full overflow-x-auto">
         {TABS.map((tab) => (
           <TabsTrigger key={tab.value} value={tab.value} className="px-4">
             {tab.label}

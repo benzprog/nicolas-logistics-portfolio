@@ -69,6 +69,9 @@ run tests/db/20_model.sql
 echo "→ pruebas de seguridad (RLS)"
 run tests/db/30_rls.sql
 
+echo "→ contrato con el código"
+run tests/db/40_contract.sql
+
 echo
 psql -d "$DATABASE_URL" -P pager=off -c \
   "select case when passed then '  ok  ' else ' FALLA' end as estado, name as prueba, detail as detalle
