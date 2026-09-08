@@ -94,11 +94,16 @@ export function AnswerForm({ questionId }: { questionId: string }) {
           {tooLong ? " · te pasaste del máximo que acepta Mercado Libre" : ""}
         </p>
 
-        <div className="flex items-center gap-3">
-          <p className="text-muted-foreground hidden text-xs sm:block">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
+          {/*
+            Este aviso se ve siempre, también en el teléfono. Antes estaba
+            oculto en pantallas chicas, que es justo donde alguien responde
+            apurado y donde más importa saber que lo que manda queda publicado.
+          */}
+          <p className="text-muted-foreground text-xs">
             Se publica en Mercado Libre y no se puede editar.
           </p>
-          <Button type="submit" disabled={!canSend}>
+          <Button type="submit" disabled={!canSend} className="w-full sm:w-auto">
             {pending ? (
               <>
                 <Loader2 className="animate-spin" aria-hidden />

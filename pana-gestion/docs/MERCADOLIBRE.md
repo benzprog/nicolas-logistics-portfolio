@@ -1,29 +1,49 @@
 # Integración con Mercado Libre
 
-Guía operativa: qué hace el sistema, qué revisar cuando algo no anda, y qué
-datos hay que confirmar contra la documentación oficial.
+Guía operativa: qué hace el sistema, qué revisar cuando algo no anda, y el único
+dato que queda por confirmar.
 
 ---
 
-## Datos a verificar
+## Datos de la API
 
-El código se escribió sin acceso a `developers.mercadolibre.com.ar`. Los valores
-que dependen de esa documentación están juntos en
-[`services/mercadolibre/constants.ts`](../services/mercadolibre/constants.ts),
-marcados con `VERIFICAR`. Confirmarlos **antes** de conectar la cuenta real:
+Todo lo que depende de la documentación de Mercado Libre vive en
+[`services/mercadolibre/constants.ts`](../services/mercadolibre/constants.ts).
+Los tests usan esas mismas constantes, así que cambiar un valor ahí mantiene
+las pruebas alineadas.
 
-| Constante                  | Valor asumido      | Qué pasa si está mal                                                               |
-| -------------------------- | ------------------ | ---------------------------------------------------------------------------------- |
-| `ML_QUESTIONS_API_VERSION` | `4`                | La respuesta puede venir con otra forma; Zod la rechaza y el evento queda fallado. |
-| `ML_ANSWER_MAX_LENGTH`     | `2000`             | Se rechazan respuestas válidas, o Mercado Libre rechaza las nuestras.              |
-| `ML_QUESTION_STATUSES`     | 7 estados          | Un estado nuevo cae en "pendiente", que es el lado seguro.                         |
-| Vida del access token      | 6 h                | Solo afecta cuándo se renueva; el sistema usa el `expires_in` real.                |
-| Rotación del refresh token | sí, de un solo uso | Si **no** rotara, el candado sería innecesario pero inofensivo.                    |
-| Soporte de PKCE            | sí                 | Si no lo soportara, hay que sacar `code_challenge` del flujo.                      |
-| Endpoint `/missed_feeds`   | existe             | La reconciliación igual cubre el hueco con `/questions/search`.                    |
+Estado de verificación, septiembre de 2026:
 
-Los tests usan estas mismas constantes: cambiar el valor acá mantiene las
-pruebas alineadas.
+| Dato                       | Valor                                                                                   | Estado        |
+| -------------------------- | --------------------------------------------------------------------------------------- | ------------- |
+| Versión de la API          | `api_version=4`                                                                         | ✔ confirmado  |
+| Largo máximo de respuesta  | 2000 caracteres                                                                         | ✔ confirmado  |
+| Estados de una pregunta    | los 7 que están en el código                                                            | ✔ confirmado  |
+| Vida del access token      | 6 horas                                                                                 | ✔ confirmado  |
+| Refresh token              | se rota en cada uso; se guardan los dos                                                 | ✔ confirmado  |
+| Scope necesario            | `offline_access` para recibir refresh token                                             | ✔ confirmado  |
+| Notificaciones perdidas    | `GET /missed_feeds?app_id=`                                                             | ✔ confirmado  |
+| Reintentos de notificación | hasta 8 a lo largo de una hora                                                          | ✔ confirmado  |
+| Formato del payload        | `_id`, `resource`, `user_id`, `topic`, `application_id`, `attempts`, `sent`, `received` | ✔ confirmado  |
+| **PKCE**                   | activado por defecto, configurable                                                      | **? abierto** |
+
+### Lo único abierto: PKCE
+
+En el panel de aplicaciones hay un interruptor para exigir PKCE. No se pudo
+confirmar si mandar `code_challenge` cuando la aplicación **no** lo tiene
+activado hace fallar el canje del código.
+
+Por eso el sistema lo trae encendido —que es lo seguro, porque sin PKCE un
+código de autorización interceptado alcanza para obtener el token— pero
+apagable sin tocar código:
+
+```
+ML_PKCE_ENABLED=0
+```
+
+Si al conectar la cuenta el canje falla con `invalid_grant`, hay dos caminos:
+activar PKCE en el panel de Mercado Libre (preferible), o poner esa variable en
+`0` y reintentar.
 
 ---
 

@@ -114,7 +114,12 @@ export default async function MercadoLibreConfigPage({
                 <span className="tabular font-mono text-sm">{connection.account.ml_user_id}</span>
               </Field>
 
-              <Field label="Conectada">
+              {/*
+                La etiqueta dice "Conectada el" y no "Conectada" porque arriba
+                hay una insignia con esa misma palabra como estado: repetirla
+                acá, con otro significado, se lee mal.
+              */}
+              <Field label="Conectada el">
                 {connection.integration.connected_at
                   ? formatDateTime(connection.integration.connected_at)
                   : "—"}

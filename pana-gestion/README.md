@@ -130,8 +130,10 @@ Con la aplicación creada, la cuenta se conecta desde
 pnpm dev             # desarrollo
 pnpm build           # build de producción
 pnpm check           # lint + typecheck + tests (lo que corre antes de subir)
-pnpm test            # solo tests
-pnpm test:watch      # tests en watch
+pnpm test            # tests unitarios y de integración
+pnpm test:watch      # los mismos, en watch
+pnpm test:e2e        # recorrido completo en el navegador
+pnpm test:e2e:ui     # el mismo, con la interfaz de Playwright
 pnpm db:types        # regenerar tipos desde Supabase
 
 ./scripts/check-migrations.sh   # aplica las migraciones a un PostgreSQL limpio
@@ -139,9 +141,13 @@ pnpm db:types        # regenerar tipos desde Supabase
 ```
 
 `check-migrations.sh` levanta su propio PostgreSQL, simula lo poco que aporta
-Supabase (schema `auth`, `auth.uid()`, los tres roles) y corre 38 pruebas contra
+Supabase (schema `auth`, `auth.uid()`, los tres roles) y corre 62 pruebas contra
 SQL de verdad: idempotencia, candado de doble envío, y sobre todo que nadie
 pueda leer los tokens ni ascenderse a administrador. No necesita Docker.
+
+`pnpm test:e2e` levanta la aplicación entera contra un Supabase simulado
+(`tests/e2e/supabase-stub.mjs`) y la recorre con un navegador de verdad, en
+tamaño de escritorio y de teléfono. Tampoco necesita credenciales.
 
 ---
 
@@ -217,6 +223,11 @@ releer algo nuestro.
 Funciona de punta a punta el flujo de preguntas: conexión de la cuenta,
 recepción de notificaciones, sincronización, listado con filtros, detalle,
 respuesta e historial.
+
+Los datos de la API de Mercado Libre están confirmados contra su documentación,
+con una excepción: si PKCE hay que mandarlo siempre o solo cuando la aplicación
+lo tiene activado. Por eso es una variable de entorno y no una decisión fija.
+Está en [`docs/MERCADOLIBRE.md`](docs/MERCADOLIBRE.md).
 
 Los módulos de stock, productos, ventas, envíos, proveedores y facturación
 figuran en la navegación apagados: están para mostrar hacia dónde crece esto,

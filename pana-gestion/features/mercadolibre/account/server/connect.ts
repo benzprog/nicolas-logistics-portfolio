@@ -26,7 +26,8 @@ import type { Json } from "@/types/database.types";
  */
 export async function connectAccount(params: {
   code: string;
-  codeVerifier: string;
+  /** Ausente cuando la aplicación no usa PKCE (ver isPkceEnabled). */
+  codeVerifier?: string;
   userId: string;
 }): Promise<{ accountId: string; nickname: string; reconnected: boolean }> {
   const config = oauthConfig();

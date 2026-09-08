@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { requireRole } from "@/features/auth/server/session";
 import { consumeOAuthState } from "@/features/mercadolibre/account/server/oauth-state";
 import { connectAccount } from "@/features/mercadolibre/account/server/connect";
+import { isPkceEnabled } from "@/services/mercadolibre/constants";
 import { logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
@@ -46,7 +47,8 @@ export async function GET(request: NextRequest) {
 
     const result = await connectAccount({
       code,
-      codeVerifier: stored.codeVerifier,
+      // El verificador se manda solo si el desafío viajó en la ida.
+      codeVerifier: isPkceEnabled() ? stored.codeVerifier : undefined,
       userId: user.id,
     });
 

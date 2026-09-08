@@ -192,9 +192,11 @@ describe("historial", () => {
   it("distingue una respuesta que vino de la app de Mercado Libre", () => {
     render(
       <QuestionHistory
-        answers={[
-          { ...intentos[0]!, source: "external", profiles: null },
-        ] as unknown as QuestionDetail["question_answers"]}
+        answers={
+          [
+            { ...intentos[0]!, source: "external", profiles: null },
+          ] as unknown as QuestionDetail["question_answers"]
+        }
       />,
     );
     expect(screen.getByText("Respondida desde Mercado Libre")).toBeInTheDocument();

@@ -8,6 +8,7 @@ import {
   storeOAuthState,
 } from "@/features/mercadolibre/account/server/oauth-state";
 import { buildAuthorizationUrl } from "@/services/mercadolibre/oauth";
+import { isPkceEnabled } from "@/services/mercadolibre/constants";
 import { AppError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 
@@ -26,7 +27,9 @@ export async function GET() {
 
     const url = buildAuthorizationUrl(oauthConfig(), {
       state: state.state,
-      codeChallenge: codeChallengeFor(state.codeVerifier),
+      // El desafío solo viaja si la aplicación tiene PKCE activado; mandarlo
+      // cuando no corresponde puede hacer fallar el canje del código.
+      codeChallenge: isPkceEnabled() ? codeChallengeFor(state.codeVerifier) : undefined,
     });
 
     return NextResponse.redirect(url);
