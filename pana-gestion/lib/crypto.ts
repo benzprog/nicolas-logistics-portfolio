@@ -1,6 +1,12 @@
 import "server-only";
 
-import { createCipheriv, createDecipheriv, randomBytes, timingSafeEqual, createHmac } from "node:crypto";
+import {
+  createCipheriv,
+  createDecipheriv,
+  randomBytes,
+  timingSafeEqual,
+  createHmac,
+} from "node:crypto";
 
 import { getServerEnv } from "@/lib/env";
 
@@ -28,9 +34,12 @@ export function encryptSecret(plaintext: string): string {
   const ciphertext = Buffer.concat([cipher.update(plaintext, "utf8"), cipher.final()]);
   const tag = cipher.getAuthTag();
 
-  return [VERSION, iv.toString("base64"), tag.toString("base64"), ciphertext.toString("base64")].join(
-    ":",
-  );
+  return [
+    VERSION,
+    iv.toString("base64"),
+    tag.toString("base64"),
+    ciphertext.toString("base64"),
+  ].join(":");
 }
 
 export function decryptSecret(payload: string): string {

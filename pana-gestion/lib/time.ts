@@ -18,6 +18,9 @@ const dateTimeFormatter = new Intl.DateTimeFormat("es-AR", {
   year: "numeric",
   hour: "2-digit",
   minute: "2-digit",
+  // 24 horas: es como se escribe la hora en Argentina, y en una tabla el
+  // "a. m. / p. m." ocupa lugar sin aportar nada.
+  hourCycle: "h23",
 });
 
 const dateFormatter = new Intl.DateTimeFormat("es-AR", {
@@ -47,7 +50,10 @@ export function formatRelative(value: Date | string | null | undefined): string 
 }
 
 /** "3 h" / "2 d" — compacto, para columnas de tabla. */
-export function formatAge(value: Date | string | null | undefined, reference: Date = now()): string {
+export function formatAge(
+  value: Date | string | null | undefined,
+  reference: Date = now(),
+): string {
   const date = toDate(value);
   if (!date) return "—";
 
@@ -65,7 +71,10 @@ export function formatAge(value: Date | string | null | undefined, reference: Da
 }
 
 /** Horas transcurridas desde una fecha. Sirve para los umbrales de urgencia. */
-export function hoursSince(value: Date | string | null | undefined, reference: Date = now()): number {
+export function hoursSince(
+  value: Date | string | null | undefined,
+  reference: Date = now(),
+): number {
   const date = toDate(value);
   if (!date) return 0;
   return (reference.getTime() - date.getTime()) / 3_600_000;

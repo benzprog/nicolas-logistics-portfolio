@@ -5,9 +5,7 @@
  * (Next las serializa como un error genérico en producción), así que devuelven
  * esto y el componente decide qué mostrar.
  */
-export type Result<T, E = string> =
-  | { ok: true; data: T }
-  | { ok: false; error: E; code?: string };
+export type Result<T, E = string> = { ok: true; data: T } | { ok: false; error: E; code?: string };
 
 export function ok<T>(data: T): Result<T, never> {
   return { ok: true, data };

@@ -123,3 +123,56 @@ create policy mercadolibre_accounts_select_active_users
 revoke insert, update, delete on public.integrations          from authenticated, anon;
 revoke insert, update, delete on public.mercadolibre_accounts from authenticated, anon;
 revoke all                    on public.mercadolibre_tokens   from authenticated, anon;
+
+-- ----------------------------------------------------------------------------
+-- Registrar un fallo de renovación.
+--
+-- Va en una sola llamada porque el contador se toca desde varios procesos a la
+-- vez: leer, sumar uno y escribir desde la aplicación perdería fallos, y con
+-- eso la cuenta nunca llegaría a marcarse como "hay que reconectar".
+-- ----------------------------------------------------------------------------
+
+create or replace function public.register_token_refresh_failure(
+  p_account_id   uuid,
+  p_max_failures integer default 3,
+  p_auth_problem boolean default true
+)
+returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_failures       integer;
+  v_integration_id uuid;
+begin
+  update public.mercadolibre_tokens
+     set refresh_failures  = refresh_failures + case when p_auth_problem then 1 else 0 end,
+         refresh_lock_until = null
+   where account_id = p_account_id
+  returning refresh_failures into v_failures;
+
+  if v_failures is null then
+    return 0;
+  end if;
+
+  -- Agotados los intentos, la cuenta queda marcada para reconexión manual:
+  -- no hay forma automática de recuperar un refresh token inválido.
+  if p_auth_problem and v_failures >= p_max_failures then
+    select integration_id into v_integration_id
+      from public.mercadolibre_accounts where id = p_account_id;
+
+    if v_integration_id is not null then
+      update public.integrations
+         set status     = 'needs_reauth',
+             last_error = 'El refresh token dejó de ser válido. Hay que reconectar la cuenta.'
+       where id = v_integration_id;
+    end if;
+  end if;
+
+  return v_failures;
+end;
+$$;
+
+revoke execute on function public.register_token_refresh_failure(uuid, integer, boolean)
+  from public, anon, authenticated;

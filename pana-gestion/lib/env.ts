@@ -23,21 +23,21 @@ const serverSchema = z.object({
   ML_SITE_ID: z.string().default("MLA"),
 
   /** 32 bytes en base64: cifra los tokens de Mercado Libre en la base. */
-  ML_TOKEN_ENCRYPTION_KEY: z
-    .string()
-    .refine((value) => {
-      try {
-        return Buffer.from(value, "base64").length === 32;
-      } catch {
-        return false;
-      }
-    }, "ML_TOKEN_ENCRYPTION_KEY tiene que ser 32 bytes en base64 (openssl rand -base64 32)"),
+  ML_TOKEN_ENCRYPTION_KEY: z.string().refine((value) => {
+    try {
+      return Buffer.from(value, "base64").length === 32;
+    } catch {
+      return false;
+    }
+  }, "ML_TOKEN_ENCRYPTION_KEY tiene que ser 32 bytes en base64 (openssl rand -base64 32)"),
 
   /** Secreto que viaja en la URL de notificaciones de Mercado Libre. */
   ML_WEBHOOK_TOKEN: z.string().min(16, "ML_WEBHOOK_TOKEN tiene que tener al menos 16 caracteres"),
 
   /** Firma la cookie de `state` del flujo OAuth. */
-  OAUTH_STATE_SECRET: z.string().min(32, "OAUTH_STATE_SECRET tiene que tener al menos 32 caracteres"),
+  OAUTH_STATE_SECRET: z
+    .string()
+    .min(32, "OAUTH_STATE_SECRET tiene que tener al menos 32 caracteres"),
 
   /** Autoriza al job de reconciliación. */
   CRON_SECRET: z.string().min(16, "CRON_SECRET tiene que tener al menos 16 caracteres"),
