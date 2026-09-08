@@ -1,0 +1,187 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system de PANA Gestión.
+ *
+ * La paleta sale del sistema de diseño real de la marca (catálogo TENARUZ y
+ * flyers): negro #1a1a1a, crema #f1ede8 y ámbar #f4c430. Los grises son los
+ * mismos que usa el catálogo, así que la herramienta interna y el material
+ * impreso se ven de la misma familia.
+ *
+ * El ámbar NO se usa como color de botón: sobre él ningún texto llega a 4.5:1
+ * en tamaño normal. Se reserva para marcar lo activo y lo que urge.
+ */
+:root {
+  --radius: 0.5rem;
+
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+
+  /* Negro de marca: acciones primarias */
+  --primary: #1a1a1a;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f4f3f1;
+  --secondary-foreground: #1a1a1a;
+
+  --muted: #f7f6f4;
+  --muted-foreground: #6b6b6b;
+
+  /* Crema de marca: hovers y superficies de apoyo */
+  --accent: #f1ede8;
+  --accent-foreground: #1a1a1a;
+
+  /* Ámbar de marca: estado activo, atención */
+  --brand: #f4c430;
+  --brand-foreground: #1a1a1a;
+  --brand-subtle: #fdf6e0;
+
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
+  --destructive-subtle: #fef3f2;
+
+  --success: #067647;
+  --success-foreground: #ffffff;
+  --success-subtle: #ecfdf3;
+
+  --warning: #b54708;
+  --warning-foreground: #ffffff;
+  --warning-subtle: #fffaeb;
+
+  --border: #e5e3e0;
+  --input: #d9d6d2;
+  --ring: #1a1a1a;
+
+  --sidebar: #fbfaf9;
+  --sidebar-foreground: #3b3b3b;
+  --sidebar-border: #e5e3e0;
+  --sidebar-accent: #f1ede8;
+  --sidebar-accent-foreground: #1a1a1a;
+}
+
+/*
+ * Tokens del tema oscuro: quedan definidos para que sumar el toggle sea
+ * un cambio de una línea, pero V1 no lo expone.
+ */
+.dark {
+  --background: #141414;
+  --foreground: #ededed;
+
+  --card: #1e1e1e;
+  --card-foreground: #ededed;
+  --popover: #1e1e1e;
+  --popover-foreground: #ededed;
+
+  --primary: #ededed;
+  --primary-foreground: #1a1a1a;
+
+  --secondary: #262626;
+  --secondary-foreground: #ededed;
+
+  --muted: #242424;
+  --muted-foreground: #9a9a9a;
+
+  --accent: #2a2724;
+  --accent-foreground: #ededed;
+
+  --brand: #f4c430;
+  --brand-foreground: #1a1a1a;
+  --brand-subtle: #3a2f10;
+
+  --destructive: #f97066;
+  --destructive-foreground: #1a1a1a;
+  --destructive-subtle: #3a1a17;
+
+  --success: #47cd89;
+  --success-foreground: #1a1a1a;
+  --success-subtle: #0f2f21;
+
+  --warning: #fdb022;
+  --warning-foreground: #1a1a1a;
+  --warning-subtle: #3a2a0f;
+
+  --border: #333333;
+  --input: #3d3d3d;
+  --ring: #d4d4d4;
+
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #c9c9c9;
+  --sidebar-border: #333333;
+  --sidebar-accent: #262626;
+  --sidebar-accent-foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-subtle: var(--destructive-subtle);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), var(--font-inter), ui-sans-serif, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Números alineados en columnas: precios, cantidades, contadores */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
