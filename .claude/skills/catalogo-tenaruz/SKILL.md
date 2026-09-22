@@ -245,6 +245,42 @@ Verificá siempre a 300 dpi contra el original: los dientes de la silueta no se 
 Al revés no funciona: una foto tomada sobre crema no se puede poner sobre negro sin recortar
 el producto del fondo.
 
+## Antes de borrar un producto: mirá si la foto es la que dice ser
+
+En el catálogo 2026 las fotos de la AR70 y la AR111 estaban cambiadas de ficha. Cada ficha
+tenía su título, sus datos y su código correctos; lo único cruzado era la foto, y eso no se
+nota leyendo. Al borrar la ficha "AR70 LED" —que era la que llevaba la foto de la AR111—
+el catálogo quedó sin AR70 y con la AR111 mostrando la lámpara equivocada, y la foto buena
+se fue con la ficha borrada.
+
+Antes de borrar una ficha, comprobá que su foto corresponda. Para lámparas con casquillo
+estándar alcanza con una regla: el casquillo GU10 mide ~20 mm, así que
+
+    diámetro real ≈ 20 mm x (ancho del reflector / ancho del casquillo)
+
+medidos en píxeles sobre la foto. Contra el campo "Medidas" de la ficha el cruce salta solo:
+daba 124 mm en la ficha que declaraba Ø70 y 84 mm en la que declaraba Ø111.
+
+Si hay que rehacer una sección entera, fijate primero si el archivo original sirve de
+fuente: si esa sección no cambió salvo la paginación, traerla completa del original y
+renumerar es mucho menos riesgoso que reinsertar una ficha y reflowear las que siguen.
+Verificá la equivalencia pantalla contra pantalla antes de confiar en eso.
+
+## Recomponer una foto en el formato de otra ficha
+
+Cada ficha tiene su hueco de foto en puntos, y una imagen con otra proporción sale estirada.
+`scripts/recomponer_foto.py` recorta la lámpara de su fondo y la vuelve a montar en el
+lienzo que espera el hueco destino, con el mismo peso visual que la que reemplaza.
+
+El halo de color detrás de las lámparas no se inventa: se mide sobre las fotos que ya lo
+tienen. Tomando el realce de luminancia por distancia al contorno sale una caída
+exponencial (en este catálogo, constante ~35 px, +13 pegado al contorno en 3000K y +23 en
+4000K, con dominante cálida y neutra fría). Reconstruirlo con esa fórmula sobre la
+transformada de distancia da un resultado indistinguible del original.
+
+Ojo con el umbral de recorte: si la foto de origen ya trae halo, un umbral bajo se lo lleva
+como parte de la silueta. Para esas hay que subirlo bastante (45 sobre 255).
+
 ## Tapar un texto no lo borra
 
 Reemplazar un texto pintándole un rectángulo encima y escribiendo el nuevo lo saca de la
