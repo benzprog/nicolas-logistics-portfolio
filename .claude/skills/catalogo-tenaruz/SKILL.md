@@ -322,6 +322,42 @@ Regular completa como fuente simple con WinAnsiEncoding para esos casos; al ser 
 familia, el resultado combina perfecto con el resto. Verificá siempre con
 `Catalog.check_glyphs()` antes de dar por hecho que un texto entra.
 
+## Auditar el catálogo antes de entregarlo
+
+Los errores que más cuesta ver son los de coherencia entre partes, no los de una página
+suelta. Esta batería los saca a la luz en un minuto:
+
+1. **Códigos contra portadilla.** Contá los `TZ-...` distintos de cada sección y comparalos
+   con el `N CÓDIGOS` de su portadilla. Tienen que dar exacto — es el mejor detector de una
+   ficha perdida o duplicada. En el 2026: 31 + 18 + 15 = 64.
+2. **Índice contra páginas.** Cada fila del índice tiene que caer en la página que dice.
+3. **Numeración.** Los recuadros van de 2 a N-1; la portada y la página de contacto **no**
+   llevan número.
+4. **Diferencia contra la fuente.** Renderizá a 72 dpi y comparé página por página contra
+   el archivo del que partiste. Todo lo que cambió tiene que estar explicado: si una página
+   que no tocaste da distinto, ahí hay un problema. Y en las que sí tocaste, mirá **dónde**
+   cae la diferencia: al cambiar dos fotos, el diff tiene que vivir dentro de los huecos de
+   esas fotos y en ningún otro lado.
+5. **Capa de texto.** `pdftotext` de cada página tiene que salir legible y sin renglones
+   encimados. Si aparecen dos versiones de un texto, quedó una tapada (ver más arriba).
+
+### Los números de página se acumulan
+
+Renumerar tapa el recuadro y dibuja el número nuevo encima, así que cada renumeración deja
+el anterior debajo. Después de dos rondas había páginas con cuatro números en la capa de
+texto. `scripts/limpiar_numeros.py` deja sólo el que se ve.
+
+Filtrá por posición (x>570, y<40): sin eso, la columna de números del índice —que son 23 y
+sí se ven— entra en la redada. Me pasó.
+
+### El texto tapado también vive dentro de los Form XObjects
+
+En las portadillas y en las páginas armadas moviendo paneles, el texto viejo no está en el
+stream de la página sino en el form que dibuja. Para limpiarlo hay que copiar el form
+—puede estar compartido con otra página, como S17 entre la 16 y la 17— y borrar los bloques
+ahí adentro. Verificá siempre que el render quede idéntico: si cambia, borraste algo que se
+veía.
+
 ## Sobre los datos del producto
 
 Las fichas nuevas salen del PDF de diseño del packaging (`TZSPOT...design.pdf` y similares),
