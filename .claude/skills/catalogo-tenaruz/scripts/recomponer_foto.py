@@ -30,10 +30,17 @@ FORMATOS = {
 
 # medidos sobre las fotos originales: (tinte normalizado, realce pegado al contorno)
 HALO = {
-    "3000K": (np.array([1.00, 0.52, 0.12]), 16.7),
-    "4000K": (np.array([0.92, 0.96, 1.00]), 29.0),
+    "3000K": (np.array([1.00, 0.52, 0.12]), 30.0),
+    "4000K": (np.array([0.92, 0.96, 1.00]), 50.0),
 }
-TAU = 35.0                 # px de caída del halo
+TAU = 55.0                 # px de caída del halo hacia afuera
+# La AR111 llena mucho más el cuadro que la plateada, así que queda menos fondo donde se
+# vea el halo y a tamaño de página las dos temperaturas se confundían: se sube el realce y
+# se ensancha la caída. Además la luz rebota en el cuerpo de la lámpara, y ese rebote no es
+# parejo — se concentra en el borde y se apaga hacia adentro, así que se calcula con la
+# distancia hacia el interior de la silueta. Plano quedaba como un filtro de color encima.
+SOBRE_LAMPARA = 0.55
+TAU_INTERIOR = 22.0        # px de caída del rebote hacia adentro
 
 
 def recortar(f, umbral):
@@ -64,10 +71,15 @@ def componer(foto, tinte, formato):
 
     dist = ndimage.distance_transform_edt(mascara < 0.5)
     color, pico = HALO[tinte]
-    lienzo = FONDO + (pico * np.exp(-dist / TAU))[..., None] * color
+    capa = pico * np.exp(-dist / TAU)
+    lienzo = FONDO + capa[..., None] * color
 
     trozo = lienzo[y0:y0 + nh, x0:x0 + nw]
     lienzo[y0:y0 + nh, x0:x0 + nw] = rgb * alf[..., None] + trozo * (1 - alf[..., None])
+    # el rebote de la luz sobre el cuerpo, concentrado en el borde
+    adentro = ndimage.distance_transform_edt(mascara > 0.5)
+    rebote = mascara * pico * SOBRE_LAMPARA * np.exp(-adentro / TAU_INTERIOR)
+    lienzo += rebote[..., None] * color
     return Image.fromarray(np.clip(lienzo, 0, 255).astype(np.uint8), "RGB")
 
 

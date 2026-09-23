@@ -274,9 +274,19 @@ lienzo que espera el hueco destino, con el mismo peso visual que la que reemplaz
 
 El halo de color detrás de las lámparas no se inventa: se mide sobre las fotos que ya lo
 tienen. Tomando el realce de luminancia por distancia al contorno sale una caída
-exponencial (en este catálogo, constante ~35 px, +13 pegado al contorno en 3000K y +23 en
-4000K, con dominante cálida y neutra fría). Reconstruirlo con esa fórmula sobre la
-transformada de distancia da un resultado indistinguible del original.
+exponencial, con dominante cálida en 3000K y neutra fría en 4000K. Reconstruirlo con esa
+fórmula sobre la transformada de distancia da un resultado indistinguible del original.
+
+Dos cosas que hay que calibrar al trasplantarlo a otra foto:
+
+- **El realce medido sirve de piso, no de receta.** Los valores del original valen para una
+  lámpara que ocupa el 57% del cuadro; si la nueva lo llena más, queda menos fondo donde se
+  vea el halo y a tamaño de página las dos temperaturas se confunden. Mirá el resultado al
+  tamaño al que se imprime, no al 100%.
+- **La luz rebota en el cuerpo de la lámpara**, y ese rebote se concentra en el borde y se
+  apaga hacia adentro: se calcula con la transformada de distancia hacia el interior de la
+  silueta. Aplicado plano sobre toda la lámpara parece un filtro de color y le saca el
+  blanco al cuerpo.
 
 Ojo con el umbral de recorte: si la foto de origen ya trae halo, un umbral bajo se lo lleva
 como parte de la silueta. Para esas hay que subirlo bastante (45 sobre 255).
@@ -327,6 +337,11 @@ familia, el resultado combina perfecto con el resto. Verificá siempre con
 Los errores que más cuesta ver son los de coherencia entre partes, no los de una página
 suelta. Esta batería los saca a la luz en un minuto:
 
+0. **Todas las fichas en el índice.** El índice original dejaba afuera las últimas por
+   falta de lugar. `scripts/rehacer_indice.py` lo redibuja entero repartiendo el alto
+   disponible entre las filas que haya: con 26 fichas el paso queda en 19.4 pt, que con
+   cuerpo 7.49 sigue leyéndose cómodo. Redibujarlo entero es mejor que insertar filas:
+   evita sumar otra capa tapada.
 1. **Códigos contra portadilla.** Contá los `TZ-...` distintos de cada sección y comparalos
    con el `N CÓDIGOS` de su portadilla. Tienen que dar exacto — es el mejor detector de una
    ficha perdida o duplicada. En el 2026: 31 + 18 + 15 = 64.
