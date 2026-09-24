@@ -355,6 +355,29 @@ tabla, así que o mantenés la misma cantidad de renglones o redibujás la ficha
 plantilla: descripciones con reajuste de línea, tablas completas, pies de dos renglones,
 códigos y leyendas de foto.
 
+## Una ficha que compara dos variantes
+
+Cuando un producto tiene dos versiones con datos distintos, el catálogo venía resolviéndolo
+metiendo los dos valores en la misma celda ("1x7W / 1x3W (mini)"), que se lee mal apenas
+hay más de un dato que cambia. La alternativa que entra en la grilla es partir la columna
+de valores en dos, con una fila de encabezado:
+
+- encabezados en el estilo de subcódigo (/F11 5.19, #8d8d8d), alineados a la derecha de
+  cada columna
+- columna 1 a la derecha de **478**, columna 2 en `value_right`
+- los valores comunes **se repiten en las dos columnas**. Dejarlos sólo en la de la derecha
+  parece que pertenecen a esa variante.
+
+Contá las filas antes de empezar: el encabezado ocupa una de las diez posiciones de
+`row_baselines`, y cada fila que sumás baja los códigos 14.4 pt.
+
+`scripts/ficha_comparativa.py` es la ficha de la estaca de aluminio, que además apila las
+dos fotos: al pasar de una foto sola a dos, la altura baja a **130 pt**, que es la que usan
+las fotos apareadas del resto de la sección.
+
+Ojo con las tapas: los códigos viejos quedan **por encima** de los nuevos cuando la tabla
+crece, así que el rectángulo tiene que arrancar arriba de la posición vieja, no de la nueva.
+
 ## El pie no siempre entra en un renglón
 
 El pie lleva tracking +1.496 a cuerpo 5.76, así que un texto largo se pasa de los 232.3 pt
