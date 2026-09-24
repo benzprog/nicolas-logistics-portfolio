@@ -355,6 +355,25 @@ tabla, así que o mantenés la misma cantidad de renglones o redibujás la ficha
 plantilla: descripciones con reajuste de línea, tablas completas, pies de dos renglones,
 códigos y leyendas de foto.
 
+## El crema no es uno solo
+
+La sección ARTEFACTOS usa `#f1ede8`, pero **la ficha de la estaca de aluminio venía en
+`#e4e0da`**, un crema más oscuro: arrastra el fondo de la página de la que salió. No se
+nota mirando una página sola, y sí apenas repintás una parte del panel — quedan dos tonos
+partidos por el borde del rectángulo.
+
+Antes de tapar un pedazo de panel, muestreá el color real de ese panel en particular, no
+el de la sección. Y si vas a unificarlo con el de las páginas vecinas, repintá el panel
+**entero**: eso se lleva puesto el logo, que hay que volver a colocar (`Slot.logo_pos`,
+imagen `Im134`, la versión oscura).
+
+Lo mismo vale para las fotos: la de la estaca traía ese crema cocido en el JPEG y apareció
+como un recuadro al recolocarla suelta. Se recorta contra **su propio** fondo —el de las
+esquinas— y se recompone sobre el del panel.
+
+Y embebelas con Flate, no con JPEG: sobre una superficie plana y grande, el punto de
+diferencia que deja la compresión se ve como un recuadro fantasma.
+
 ## Una ficha que compara dos variantes
 
 Cuando un producto tiene dos versiones con datos distintos, el catálogo venía resolviéndolo

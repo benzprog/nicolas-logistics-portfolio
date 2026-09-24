@@ -7,6 +7,7 @@ de antes ocupaba el panel entero porque era una sola.
 """
 import io
 import sys
+import zlib
 
 import pikepdf
 from pikepdf import Name, Stream
@@ -118,35 +119,75 @@ frag += [cat.rect(341.7, y_cod - 14.0, 235.0, 34.0, cat.WHITE),
 print(f"pág 16: tabla comparativa de {len(ESTACA)} filas, códigos a y={y_cod:.2f}")
 
 # ── las dos fotos, una sobre otra en el panel crema ──
+# Este panel venía en un crema propio, (228,224,218), más oscuro que el (241,237,232) del
+# resto de la sección. Se repinta entero con el de la sección —logo incluido, que por eso
+# hay que volver a colocar— y las dos fotos se recomponen sobre ese mismo crema.
+import numpy as np                                            # noqa: E402
+from pikepdf import PdfImage                                  # noqa: E402
+from scipy import ndimage                                     # noqa: E402
+
+ALTO_MAX = 1000                # de sobra para 130 pt impresos
 pagina = pdf.pages[15]
 xo = pagina["/Resources"]["/XObject"]
-estandar = xo["/S17"]["/Resources"]["/XObject"]["/Im175"]
-xo["/EstacaStd"] = estandar
+CREMA = np.array([float(v) for v in cat.CREAM])
 
+
+def sin_perdida(pil):
+    """Flate en vez de JPEG: el fondo es una superficie plana y grande, y con JPEG queda
+    a un punto del panel — poco, pero en un plano liso se ve."""
+    a = np.asarray(pil.convert("RGB"), dtype=np.uint8)
+    im = Stream(pdf, zlib.compress(a.tobytes(), 9))
+    im.Type, im.Subtype = Name.XObject, Name.Image
+    im.Width, im.Height = pil.size
+    im.ColorSpace, im.BitsPerComponent, im.Filter = Name.DeviceRGB, 8, Name.FlateDecode
+    return pdf.make_indirect(im)
+
+
+def achicar(pil):
+    if pil.height <= ALTO_MAX:
+        return pil
+    return pil.resize((round(pil.width * ALTO_MAX / pil.height), ALTO_MAX), Image.LANCZOS)
+
+
+# estándar: trae su propio crema cocido en el JPEG, hay que recortarlo contra él
+std = achicar(PdfImage(xo["/S17"]["/Resources"]["/XObject"]["/Im175"]).as_pil_image().convert("RGB"))
+a = np.asarray(std).astype(float)
+esq = np.concatenate([a[:8, :8].reshape(-1, 3), a[:8, -8:].reshape(-1, 3),
+                      a[-8:, :8].reshape(-1, 3), a[-8:, -8:].reshape(-1, 3)])
+propio = np.median(esq, axis=0)
+d = np.abs(a - propio).max(axis=2)
+m = ndimage.binary_opening(ndimage.binary_fill_holes(d > 40), np.ones((3, 3)))
+lab, n = ndimage.label(m)
+if n:
+    tam = ndimage.sum(m, lab, range(1, n + 1))
+    m = np.isin(lab, [i + 1 for i, t in enumerate(tam) if t > 0.002 * m.size])
+alfa = ndimage.gaussian_filter(m.astype(float), 0.8)[..., None]
+xo["/EstacaStd"] = sin_perdida(Image.fromarray(
+    np.clip(a + (CREMA - propio) * (1 - alfa), 0, 255).astype(np.uint8), "RGB"))
+print(f"pág 16: foto estándar recortada de su crema {tuple(int(v) for v in propio)}")
+
+# mini: viene con alfa, se aplana sobre el crema de la sección
 mini = Image.open(f"{IMG}/2.png").convert("RGBA")
-import numpy as np
 al = np.asarray(mini)[..., 3]
 ys, xs = np.where(al > 40)
-mini = mini.crop((xs.min(), ys.min(), xs.max() + 1, ys.max() + 1))
-plano = Image.new("RGB", mini.size, tuple(int(v) for v in cat.CREAM))
-plano.paste(mini, (0, 0), mini)
-buf = io.BytesIO()
-plano.save(buf, "JPEG", quality=95, subsampling=0)
-im = Stream(pdf, buf.getvalue())
-im.Type, im.Subtype = Name.XObject, Name.Image
-im.Width, im.Height = plano.size
-im.ColorSpace, im.BitsPerComponent, im.Filter = Name.DeviceRGB, 8, Name.DCTDecode
-xo["/EstacaMini"] = pdf.make_indirect(im)
+mini = achicar(mini.crop((xs.min(), ys.min(), xs.max() + 1, ys.max() + 1)))
+base = Image.new("RGB", mini.size, tuple(int(v) for v in cat.CREAM))
+base.paste(mini, (0, 0), mini)
+xo["/EstacaMini"] = sin_perdida(base)
+
+# el logo oscuro, que se va con el repintado del panel
+xo["/EstacaLogo"] = xo["/S17"]["/Resources"]["/XObject"]["/Im134"]
 
 def foto(nombre, ancho_px, alto_px, y0, leyenda, y_leyenda):
     w = ALTO_FOTO * ancho_px / alto_px
     return [cat.place(nombre, CENTRO_FOTO - w / 2, y0, w, ALTO_FOTO),
             cat.show_center(leyenda, "/F11", 5.19, CENTRO_FOTO, y_leyenda, 0.896, (109, 109, 109))]
 
-frag.append(cat.rect(0, 0, 306, 342, cat.CREAM))          # limpia el panel, respeta el logo
-frag += foto("/EstacaStd", int(estandar.Width), int(estandar.Height), 200.0,
+frag.append(cat.rect(0, 0, 306, 396, cat.CREAM))          # el panel entero, tono de la sección
+frag.append(cat.place("/EstacaLogo", *B.logo_pos))
+frag += foto("/EstacaStd", int(xo["/EstacaStd"].Width), int(xo["/EstacaStd"].Height), 200.0,
              "TZ-ESTAL-GU10", 188.0)
-frag += foto("/EstacaMini", plano.width, plano.height, 45.0,
+frag += foto("/EstacaMini", base.width, base.height, 45.0,
              "TZ-ESTAL-GU10-MINI", 33.0)
 agregar(16, frag)
 print(f"pág 16: dos fotos de {ALTO_FOTO:.0f} pt de alto, estándar arriba y mini abajo")
