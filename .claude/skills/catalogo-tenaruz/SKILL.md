@@ -332,6 +332,36 @@ Regular completa como fuente simple con WinAnsiEncoding para esos casos; al ser 
 familia, el resultado combina perfecto con el resto. Verificá siempre con
 `Catalog.check_glyphs()` antes de dar por hecho que un texto entra.
 
+## La ficha fluye: la tabla no está siempre en el mismo lugar
+
+`Slot.row_baselines` vale cuando la descripción ocupa lo que el diseño previó: **tres
+renglones en el slot superior y dos en el inferior**. Con un renglón de más, toda la tabla
+—y los códigos con ella— baja 10.95 pt. Los códigos van 24.78 pt debajo de la última fila
+de la tabla, y el subcódigo 9.22 pt debajo del código.
+
+Esto muerde al reemplazar el valor de una fila o un código: si tomás la coordenada de la
+grilla sin mirar, escribís encima del renglón equivocado y el viejo queda a la vista. Antes
+de tocar una fila, medí dónde está realmente la primera divisoria de esa tabla:
+
+```python
+# las divisorias son filas casi enteras de gris #ededed dentro del panel
+gris = ((sub > 225) & (sub < 248)).sum(axis=1) > ancho * 0.8
+```
+
+Y acordate de que al cambiar el largo de la descripción cambiás también dónde arranca la
+tabla, así que o mantenés la misma cantidad de renglones o redibujás la ficha entera.
+
+`scripts/editar_fichas.py` es el lote de correcciones de contenido del 2026 y sirve de
+plantilla: descripciones con reajuste de línea, tablas completas, pies de dos renglones,
+códigos y leyendas de foto.
+
+## El pie no siempre entra en un renglón
+
+El pie lleva tracking +1.496 a cuerpo 5.76, así que un texto largo se pasa de los 232.3 pt
+de la columna aunque parezca corto. Medilo con `cat.advance()` antes de escribirlo. Si no
+entra, partilo en dos renglones separados 12.67 pt —la ficha del LED STICK ya usaba ese
+patrón— en vez de achicar el cuerpo.
+
 ## Auditar el catálogo antes de entregarlo
 
 Los errores que más cuesta ver son los de coherencia entre partes, no los de una página
