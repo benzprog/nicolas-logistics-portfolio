@@ -416,7 +416,13 @@ suelta. Esta batería los saca a la luz en un minuto:
    evita sumar otra capa tapada.
 1. **Códigos contra portadilla.** Contá los `TZ-...` distintos de cada sección y comparalos
    con el `N CÓDIGOS` de su portadilla. Tienen que dar exacto — es el mejor detector de una
-   ficha perdida o duplicada. En el 2026: 31 + 18 + 15 = 64.
+   ficha perdida o duplicada. En el 2026: 29 + 18 + 15 = 62.
+
+   **Si movés una ficha de sección, movele el contador a las dos.** El spot de 12V
+   (`TZ-SPOT12V-3W-NG-3K`) estaba en LÁMPARAS en el original y es un artefacto: al mudarlo,
+   LÁMPARAS pasó de 30 a 29 y ARTEFACTOS de 17 a 18. Actualicé el de destino y el de origen
+   quedó peor que antes, en 31. El contador no se deduce de la portadilla anterior: contalo
+   siempre contra los códigos que hay, y hacelo de nuevo al final, después del último cambio.
 2. **Índice contra páginas.** Cada fila del índice tiene que caer en la página que dice.
 3. **Numeración.** Los recuadros van de 2 a N-1; la portada y la página de contacto **no**
    llevan número.
@@ -444,6 +450,27 @@ stream de la página sino en el form que dibuja. Para limpiarlo hay que copiar e
 —puede estar compartido con otra página, como S17 entre la 16 y la 17— y borrar los bloques
 ahí adentro. Verificá siempre que el render quede idéntico: si cambia, borraste algo que se
 veía.
+
+## Texto dentro de un form con escala: el cuerpo no es el que dice `Tf`
+
+Las portadillas dibujan su contenido con `/Src Do` bajo un `cm` de 1.9. Un `/F11 12 Tf` ahí
+adentro no son 12 pt ni los 6.91 de la escala global: son `12 x 0.576271 x 1.9 = 13.139`.
+Para reescribir ese texto en coordenadas de página hay que componer toda la cadena — el `cm`
+de la página, el `0.75 ... 792` que abre el form, el `cm` interno vigente y el `Tm` con la
+`y` invertida — y recién ahí tenés la línea de base.
+
+La cadena es fácil de equivocar, así que **validala antes de cambiar nada**: borrá el bloque
+del form, redibujá *el mismo texto* en coordenadas de página y diffeá contra el archivo de
+partida. Tiene que dar **0 píxeles de diferencia a 300 dpi**. Si da 0, la posición, el cuerpo,
+el tracking y el color están bien y podés cambiar el texto tranquilo. Lo usé para pasar el
+contador de la portadilla de 31 a 29.
+
+Dos detalles que muerden:
+
+- **Los dígitos de Poppins no son tabulares**: `1` avanza 320 y `9` avanza 630. Cambiar el
+  CID de un número dentro del run corre todo lo que sigue. Hay que rehacer el run entero.
+- El tracking sacalo del propio run (`Td` menos avance del glifo) y multiplicalo por el
+  factor form -> página. No lo estimes.
 
 ## Sobre los datos del producto
 
