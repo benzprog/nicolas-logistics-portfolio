@@ -79,3 +79,45 @@ Los textos se acortan a lo imprescindible: nada de repetir la palabra "envío" e
 fila (ya lo dice el encabezado) y una sola frase para la idea de la compra mínima. Los
 montos y las condiciones no se tocan, y el "sin cargo en compras superiores a" queda
 siempre pegado al monto para no prometer envío gratis sin condición.
+
+
+## Flyer mensual de la lista (`lista_mensual.py`)
+
+Rediseño del mail de "LISTA DE PRECIOS / MES AÑO" en A4 vectorial.
+
+```bash
+python3 lista_mensual.py     # PANA_lista_octubre_2026.pdf / .jpg / .png
+```
+
+Para el mes siguiente se cambian `MES`, `ANIO`, `ENTRADA` y `DATOS` arriba del archivo.
+Los teléfonos, el mail y el horario salen de la lista mayorista vigente: si cambian ahí,
+cambiarlos acá.
+
+### Qué se mantuvo del original y qué no
+
+Se mantiene lo que lo hace reconocible: la cabecera amarilla con el patrón de lámparas, el
+círculo negro con el logo, el mes como protagonista, el botón de descarga y el pie oscuro
+con los WhatsApp.
+
+Se cambió:
+
+- **El amarillo se usa menos.** En el original ocupaba un tercio de la pieza en plano. Un
+  plano grande de amarillo satura y le saca jerarquía a todo lo demás; ahora queda en la
+  cabecera, en un filete y en el botón, y el resto va sobre el crema del catálogo.
+- **Se fue el cobre** del titular y del botón. La identidad de hoy —la del catálogo 2026—
+  es negro, crema y amarillo. Un cuarto color no sumaba.
+- **La trama de puntos corre a toda la altura** y se disuelve hacia los costados. Probada
+  como rectángulo de bordes duros, como en el original, se leía como una franja pegada; y
+  esfumada en redondo dejaba una hilera suelta cortada contra el crema.
+- **El patrón de lámparas se dibuja en SVG**, no es un bitmap repetido: la pieza sale en
+  PDF vectorial y el patrón tiene que aguantar el tamaño de impresión.
+
+### El logo de PANA sigue siendo provisorio
+
+`logos/pana_blanco_mail.png` está sacado del mail original, donde el lockup mide **172 x 52
+px**. Se lo enmascara contra el círculo negro, se pasa la luminancia a alfa y se endurece el
+borde con una smoothstep —es una marca de dos tonos, así que cerrar el filo ayuda—, pero no
+hay detalle que recuperar: ampliado a los 40 mm que ocupa en la pieza se nota blando.
+
+Hace falta el vectorial, igual que el de TENARUZ (`logos/Logo-TENARUZ.ai` en la raíz). Con
+ese archivo se reemplaza el `<img>` y la cabecera queda perfecta.
