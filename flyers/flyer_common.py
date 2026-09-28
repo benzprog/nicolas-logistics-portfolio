@@ -27,6 +27,16 @@ FACES = "".join([
     font_face("Poppins", "Poppins-Bold.ttf", 700),
 ])
 
+# Archivo es la tipografía de la identidad actual de PANA: sale del plan de contenidos,
+# donde está embebida como ArchivoRoman / ArchivoSemiBold. Google Fonts la sirve variable
+# (wght 100-900) y acá está instanciada a estáticas, que Chromium exporta a PDF mejor.
+ARCHIVO = "".join([
+    font_face("Archivo", "Archivo-Regular.ttf", 400),
+    font_face("Archivo", "Archivo-Medium.ttf", 500),
+    font_face("Archivo", "Archivo-SemiBold.ttf", 600),
+    font_face("Archivo", "Archivo-Bold.ttf", 700),
+])
+
 # ── iconos de línea, en el mismo estilo que el original ───────────────────────
 ICONOS = {
     "carrito": """<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>

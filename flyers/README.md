@@ -83,41 +83,59 @@ siempre pegado al monto para no prometer envío gratis sin condición.
 
 ## Flyer mensual de la lista (`lista_mensual.py`)
 
-Rediseño del mail de "LISTA DE PRECIOS / MES AÑO" en A4 vectorial.
+Pieza A4 vectorial con la lista del mes.
 
 ```bash
 python3 lista_mensual.py     # PANA_lista_octubre_2026.pdf / .jpg / .png
 ```
 
-Para el mes siguiente se cambian `MES`, `ANIO`, `ENTRADA` y `DATOS` arriba del archivo.
-Los teléfonos, el mail y el horario salen de la lista mayorista vigente: si cambian ahí,
+Para el mes siguiente se cambian `MES`, `ANIO`, `BAJADA` y `FILAS` arriba del archivo. Los
+teléfonos, el mail y el horario salen de la lista mayorista vigente: si cambian ahí,
 cambiarlos acá.
 
-### Qué se mantuvo del original y qué no
+### El sistema visual sale del plan de contenidos
 
-Se mantiene lo que lo hace reconocible: la cabecera amarilla con el patrón de lámparas, el
-círculo negro con el logo, el mes como protagonista, el botón de descarga y el pie oscuro
-con los WhatsApp.
+`PANA_PLAN_SETIEMBRE` (el plan de Instagram) es la pieza más reciente de la marca, y de ahí
+están medidos —no estimados— todos los valores:
 
-Se cambió:
+| | |
+|---|---|
+| Tipografía | **Archivo** (en el plan va embebida como ArchivoRoman / ArchivoSemiBold) |
+| Fondo | `#F0EEE6` hueso |
+| Tinta | `#131313` |
+| Claro | `#F4F3F1` |
+| Acento | `#FFCE1F`, **uno solo** |
 
-- **El amarillo se usa menos.** En el original ocupaba un tercio de la pieza en plano. Un
-  plano grande de amarillo satura y le saca jerarquía a todo lo demás; ahora queda en la
-  cabecera, en un filete y en el botón, y el resto va sobre el crema del catálogo.
-- **Se fue el cobre** del titular y del botón. La identidad de hoy —la del catálogo 2026—
-  es negro, crema y amarillo. Un cuarto color no sumaba.
-- **La trama de puntos corre a toda la altura** y se disuelve hacia los costados. Probada
-  como rectángulo de bordes duros, como en el original, se leía como una franja pegada; y
-  esfumada en redondo dejaba una hilera suelta cortada contra el crema.
-- **El patrón de lámparas se dibuja en SVG**, no es un bitmap repetido: la pieza sale en
-  PDF vectorial y el patrón tiene que aguantar el tamaño de impresión.
+Tres reglas que se leen del plan y conviene no romper:
 
-### El logo de PANA sigue siendo provisorio
+- **El amarillo ocupa el 3% de la pieza.** Es señal —el botón, un filete, un chip—, nunca
+  plano de fondo. En el flyer terminado da 4,2%, del mismo orden.
+- **No hay cobre ni dorado.** Los ámbar que parecen un segundo color son el mismo `#FFCE1F`
+  antialiasado sobre negro.
+- **Esquinas vivas en todo.** Nada redondeado.
 
-`logos/pana_blanco_mail.png` está sacado del mail original, donde el lockup mide **172 x 52
-px**. Se lo enmascara contra el círculo negro, se pasa la luminancia a alfa y se endurece el
-borde con una smoothstep —es una marca de dos tonos, así que cerrar el filo ayuda—, pero no
-hay detalle que recuperar: ampliado a los 40 mm que ocupa en la pieza se nota blando.
+Los componentes son los del plan: barra superior con el logo y un rótulo espaciado a la
+derecha, titular corto, filas separadas por filetes finos, tarjeta negra y barra amarilla
+de llamada a la acción con el texto a la izquierda y el dato a la derecha (el POST 08 del
+plan es casi la misma pieza).
 
-Hace falta el vectorial, igual que el de TENARUZ (`logos/Logo-TENARUZ.ai` en la raíz). Con
-ese archivo se reemplaza el `<img>` y la cabecera queda perfecta.
+### Logos
+
+`logos/pana_negro.png` y `logos/pana_claro.png` son el logo real de PANA, sacado del plan
+(1186 x 371 con alfa). Reemplazan al rescate de 172 px que se había sacado del mail viejo.
+
+`logos/tenaruz_blanco_vector.png` sale del `.ai` de `logos/` en la raíz del repo.
+
+### La tipografía hay que bajarla bien
+
+`fonts/bajar_archivo.py` la trae de Google Fonts. Dos trampas, las dos ya resueltas ahí:
+
+- La API devuelve **varias `@font-face` por peso**, una por rango unicode. Quedarse con la
+  primera da un subset sin minúsculas ni acentos, y el navegador completa con una fuente
+  del sistema **sin avisar**: se descubre recién al mirar `pdffonts` y ver LiberationSans
+  al lado de Archivo. Hay que tomar el bloque que arranca en `U+0000-00FF`.
+- Archivo se sirve **variable** (wght 100-900) y se instancia a estáticas, que Chromium
+  exporta a PDF de forma más previsible.
+
+El script verifica que estén todos los caracteres que usan las piezas y devuelve error si
+falta alguno. La flecha `→` no está en el rango latin: si hace falta, va en SVG.
