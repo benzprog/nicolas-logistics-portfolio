@@ -17,6 +17,7 @@ import base64
 import io
 import json
 import pathlib
+import re
 import subprocess
 import sys
 
@@ -36,7 +37,7 @@ VIGENCIA = "Vigente desde el 1 de octubre de 2026"
 VENTAS, CONSULTAS = "11 6288-3659", "11 4176-4205"
 MAIL = "panailuminacion@gmail.com"
 HORARIO = "Lunes a viernes de 9:30 a 16:30"
-NOTA = "Los precios no incluyen IVA · Venta por bulto cerrado"
+NOTA = "Los precios no incluyen IVA"
 
 HUESO, NEGRO, CLARO, AMARILLO = "#F0EEE6", "#131313", "#F4F3F1", "#FFCE1F"
 FILETE, GRIS = "#D6D2CA", "#8A8884"
@@ -82,17 +83,14 @@ productos = [f for f in filas if f["tipo"] == "producto"]
 for f in productos:
     f["precio"] = round(f["costo"] * RECARGO)
 
-secciones = {"náuticos": [f for f in filas if f["pagina"] <= 3],
-             "iluminación": [f for f in filas if f["pagina"] >= 4]}
-n_nautica = sum(1 for f in secciones["náuticos"] if f["tipo"] == "producto")
-n_luz = sum(1 for f in secciones["iluminación"] if f["tipo"] == "producto")
+# El índice son los rubros tal como los marca el proveedor. Queda afuera el renglón largo
+# que enumera los subtipos de la sección náutica: es una bajada, no un rubro.
+RUBROS = [f["desc"] for f in filas if f["tipo"] == "rubro" and len(f["desc"]) <= 70]
+# en el índice los signos de admiración del proveedor sobran; en la tabla quedan como están
+INDICE = {r: r.rstrip(" !") for r in RUBROS}
 
-RESUMEN = [
-    ("Accesorios náuticos", f"{n_nautica} productos · acero inoxidable 316"),
-    ("Iluminación", f"{n_luz} productos · 12V y 220V"),
-    ("Total", f"{len(productos)} productos con precio"),
-    ("Condición", "Precios sin IVA · venta por bulto cerrado"),
-]
+# el pie de la tapa, con las categorías que cubre esta lista
+CATEGORIAS = "Hogar / Náutica / Embarcaciones / Motorhome / Campers / y más…"
 
 
 def agrupar(items):
@@ -144,13 +142,9 @@ def cuerpo_tabla(items):
     return "\n".join(out)
 
 
-resumen_html = "".join(
-    f'<div class="fila"><span class="rot">{r}</span><span class="val">{v}</span></div>'
-    for r, v in RESUMEN)
-
 # una sola tabla y no una por sección: cortando en la sección náutica quedaba un tercio de
 # hoja en blanco, y la banda negra del rubro ya marca de sobra dónde empieza la otra.
-tablas = f'''<section class="hoja">
+TABLAS = f"""<section class="hoja">
   <table>
     <thead><tr>
       <th class="item">Ítem</th><th class="desc">Descripción</th><th class="foto"></th>
@@ -160,9 +154,15 @@ tablas = f'''<section class="hoja">
       <td colspan="2" class="der">PANA iluminación · WhatsApp {VENTAS}</td></tr></tfoot>
     <tbody>{cuerpo_tabla(filas)}</tbody>
   </table>
-</section>'''
+</section>"""
 
-HTML = f"""<!doctype html><html lang="es"><meta charset="utf-8"><title>Lista PANA</title><style>
+
+def documento(paginas=None):
+    """El HTML completo. `paginas` mapea rubro -> hoja; en la primera pasada va vacío."""
+    indice = "".join(
+        f'<div class="fila"><span class="rot">{INDICE[r]}</span>'
+        f'<span class="val">{(paginas or {}).get(r, "")}</span></div>' for r in RUBROS)
+    return f"""<!doctype html><html lang="es"><meta charset="utf-8"><title>Lista PANA</title><style>
 {ARCHIVO}
 @page {{ size: A4; margin: 0 }}
 *{{ margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased }}
@@ -173,30 +173,38 @@ body {{ font-family:'Archivo',sans-serif; color:{NEGRO}; background:{HUESO}; fon
            color:{GRIS}; text-indent:.3em }}
 
 /* ── tapa ── */
-.tapa {{ height:297mm; padding:15mm 14mm 0; display:flex; flex-direction:column; page-break-after:always }}
+.tapa {{ height:297mm; padding:15mm 14mm 0; display:flex; flex-direction:column;
+         page-break-after:always }}
 .tapa .barra {{ display:flex; align-items:center; justify-content:space-between;
                 padding-bottom:5mm; border-bottom:.7pt solid {FILETE} }}
 .tapa .barra img {{ width:33mm; display:block }}
-.tapa .mes {{ font-size:48pt; font-weight:700; letter-spacing:-.022em; line-height:.96;
-              margin-top:20mm }}
-.tapa .filete {{ width:17mm; height:3.2pt; background:{AMARILLO}; margin:7mm 0 0 }}
-.tapa .bajada {{ margin-top:6mm; font-size:10.5pt; font-weight:400; color:#4A4844 }}
-.tapa .fila {{ display:flex; justify-content:space-between; align-items:baseline;
-               padding:5mm 0; border-bottom:.7pt solid {FILETE} }}
-.tapa .filas {{ margin-top:14mm }}
-.tapa .filas .fila:first-child {{ border-top:.7pt solid {FILETE} }}
-.tapa .rot {{ font-size:6.8pt; font-weight:500; letter-spacing:.3em; text-transform:uppercase;
-              color:{GRIS}; text-indent:.3em }}
-.tapa .val {{ font-size:10pt; font-weight:500 }}
-.tarjeta {{ margin-top:auto; background:{NEGRO}; color:{CLARO}; padding:10mm 10mm 0 }}
-.tarjeta h2 {{ font-size:15pt; font-weight:600; line-height:1.25; max-width:110mm }}
-.vias {{ display:flex; gap:14mm; margin-top:7mm }}
+.titulo {{ margin-top:13mm; font-size:34pt; font-weight:500; letter-spacing:-.015em;
+           line-height:1.02; color:#5E5C58 }}
+.titulo b {{ display:block; font-size:46pt; font-weight:700; letter-spacing:-.025em;
+             color:{NEGRO} }}
+.tapa .filete {{ width:17mm; height:3.2pt; background:{AMARILLO}; margin:6mm 0 0 }}
+.tapa .bajada {{ margin-top:5mm; font-size:10.5pt; font-weight:400; color:#4A4844 }}
+
+.indice {{ margin-top:11mm }}
+.indice .fila {{ display:flex; justify-content:space-between; align-items:baseline;
+                 padding:3.1mm 0; border-bottom:.6pt solid {FILETE} }}
+.indice .fila:first-child {{ border-top:.6pt solid {FILETE} }}
+.indice .rot {{ font-size:8.4pt; font-weight:500; letter-spacing:.02em; color:{NEGRO} }}
+.indice .val {{ font-size:8pt; font-weight:600; color:{GRIS} }}
+
+.tarjeta {{ margin-top:9mm; background:{NEGRO}; color:{CLARO}; padding:9mm 10mm 0 }}
+.tarjeta h2 {{ font-size:14pt; font-weight:600; line-height:1.25; max-width:110mm }}
+.vias {{ display:flex; gap:14mm; margin-top:6mm }}
 .via .r {{ display:block; font-size:6.4pt; font-weight:500; letter-spacing:.28em;
            color:{AMARILLO}; text-indent:.28em }}
 .via .n {{ display:block; margin-top:1.5mm; font-size:11pt; font-weight:600 }}
-.cta {{ margin:8mm -10mm 0; background:{AMARILLO}; color:{NEGRO}; display:flex;
-        justify-content:space-between; padding:4.4mm 10mm; font-size:8pt; font-weight:600;
+.cta {{ margin:7mm -10mm 0; background:{AMARILLO}; color:{NEGRO}; display:flex;
+        justify-content:space-between; padding:4.2mm 10mm; font-size:8pt; font-weight:600;
         letter-spacing:.22em; text-transform:uppercase }}
+
+.categorias {{ margin-top:auto; padding:6mm 0 8mm; text-align:center; font-size:7.6pt;
+               font-weight:600; letter-spacing:.24em; text-transform:uppercase;
+               color:#7C7A75; text-indent:.24em }}
 
 /* el cierre llena el pie de la última hoja, que si no termina a media página */
 .cierre {{ padding:6mm 14mm 0 }}
@@ -219,7 +227,7 @@ td {{ padding:1.7mm 2.5mm; border-bottom:.5pt solid {FILETE}; vertical-align:mid
       height:13mm }}
 
 /* la banda alterna es lo que deja claro dónde termina un producto y empieza el otro:
-   con filas de alto distinto —las que llevan foto son más altas— el filete solo no alcanza */
+   con el filete solo, y filas de alto distinto, no se distinguía */
 tr.par td {{ background:#E7E3DA }}
 
 td.item {{ width:13mm; font-size:7.4pt; color:#77756F; font-weight:600;
@@ -229,12 +237,12 @@ td.desc .det {{ display:block; margin-top:.8mm; font-size:7.2pt; font-weight:400
                 color:#7C7A75 }}
 td.foto {{ width:26mm; text-align:center; padding:1mm }}
 td.foto img {{ max-width:24mm; max-height:11.5mm; display:block; margin:0 auto }}
-td.precio .bulto {{ display:block; margin-top:.6mm; font-size:6.4pt; font-weight:500;
-                    letter-spacing:.1em; text-transform:uppercase; color:#8C8A85 }}
 
 /* el precio, contra un filete propio y en negrita: es el dato que se busca */
 td.precio {{ width:25mm; text-align:right; font-size:10pt; font-weight:700;
              white-space:nowrap; border-left:.5pt solid {FILETE} }}
+td.precio .bulto {{ display:block; margin-top:.6mm; font-size:6.4pt; font-weight:500;
+                    letter-spacing:.1em; text-transform:uppercase; color:#8C8A85 }}
 
 tr.rubro td {{ background:{NEGRO}; color:{CLARO}; font-size:7.4pt; font-weight:600;
                letter-spacing:.26em; text-transform:uppercase; padding:3mm 3.5mm 1mm;
@@ -246,23 +254,24 @@ tr.rubro.bajada td {{ font-size:6.2pt; font-weight:400; letter-spacing:.16em;
 <div class="tapa">
   <div class="barra">
     <img src="{uri(LOGOS / 'pana_negro.png')}" alt="PANA iluminación">
-    <div class="rotulo">Lista de precios</div>
+    <div class="rotulo">Mayorista</div>
   </div>
-  <div class="mes">{MES} <span>{ANIO}</span></div>
+  <div class="titulo">Lista de precios<b>{MES} {ANIO}</b></div>
   <div class="filete"></div>
   <p class="bajada">{VIGENCIA}</p>
-  <div class="filas">{resumen_html}</div>
+  <div class="indice">{indice}</div>
   <div class="tarjeta">
-    <h2>Náutica, motorhome, obra y hogar.<br>Todo con entrega desde stock.</h2>
+    <h2>Todo con entrega desde stock.</h2>
     <div class="vias">
       <div class="via"><span class="r">Ventas</span><span class="n">{VENTAS}</span></div>
       <div class="via"><span class="r">Consultas</span><span class="n">{CONSULTAS}</span></div>
     </div>
     <div class="cta"><span>{MAIL}</span><span>{HORARIO}</span></div>
   </div>
+  <div class="categorias">{CATEGORIAS}</div>
 </div>
 
-{tablas}
+{TABLAS}
 
 <div class="cierre">
   <div class="tarjeta">
@@ -276,11 +285,11 @@ tr.rubro.bajada td {{ font-size:6.2pt; font-weight:400; letter-spacing:.16em;
 </div>
 </html>"""
 
-if __name__ == "__main__":
-    fuente = BASE / "_lista.html"
-    fuente.write_text(HTML, encoding="utf-8")
-    salida = BASE / f"PANA_LISTA_{MES.upper()}_{ANIO}.pdf"
+
+def render(html, salida):
     from playwright.sync_api import sync_playwright
+    fuente = BASE / "_lista.html"
+    fuente.write_text(html, encoding="utf-8")
     with sync_playwright() as p:
         b = p.chromium.launch(executable_path=CHROME)
         pg = b.new_page()
@@ -288,5 +297,40 @@ if __name__ == "__main__":
         pg.pdf(path=str(salida), format="A4", print_background=True,
                margin={"top": "0", "bottom": "0", "left": "0", "right": "0"})
         b.close()
-    print(f"{len(productos)} productos, recargo {RECARGO:.0%}")
+
+
+def compactar(t):
+    """Sólo letras y números.
+
+    Las bandas de rubro van con `letter-spacing`, y `pdftotext` las devuelve con un espacio
+    entre caracteres y algunos pares pegados ("A RT E FA C T O S"). Comparar por palabras no
+    engancha nunca; comparar la cadena compacta, siempre.
+    """
+    return re.sub(r"[^A-Z0-9]", "", t.upper())
+
+
+def paginas_de_rubros(pdf):
+    """En qué hoja cae cada rubro. Hay que renderizar para saberlo."""
+    import subprocess
+    mapa = {}
+    n = int(subprocess.run(["pdfinfo", str(pdf)], capture_output=True, text=True
+                           ).stdout.split("Pages:")[1].split()[0])
+    for hoja in range(2, n + 1):      # la 1 es la tapa, donde está el propio índice
+        txt = subprocess.run(["pdftotext", "-f", str(hoja), "-l", str(hoja), str(pdf), "-"],
+                             capture_output=True, text=True).stdout
+        plano = compactar(txt)
+        for r in RUBROS:
+            if r not in mapa and compactar(r) in plano:
+                mapa[r] = hoja
+    return mapa
+
+
+if __name__ == "__main__":
+    salida = BASE / f"PANA_LISTA_{MES.upper()}_{ANIO}.pdf"
+    # dos pasadas: la primera para saber en qué hoja cae cada rubro, la segunda con el
+    # índice ya numerado. La tapa mide una hoja fija, así que agregarle el índice no corre
+    # la paginación del resto.
+    render(documento(), salida)
+    render(documento(paginas_de_rubros(salida)), salida)
+    print(f"{len(productos)} productos, recargo {RECARGO:.0%}, {len(RUBROS)} rubros en el índice")
     print("guardado", salida.name)
