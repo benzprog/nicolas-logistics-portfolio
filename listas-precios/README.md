@@ -85,3 +85,26 @@ ahí no hay fondo que sacar sin romper la imagen y se dejan opacas.
 `reemplazar_fotos.py` cambia fotos puntuales por versiones de mejor calidad. El destino se
 identifica por el archivo que generó la extracción, no por el número de ítem: una misma foto
 sirve a varias variantes, así que reemplazándola se actualizan todas juntas.
+
+
+## Cambiar el mes de la lista TENARUZ HD
+
+```bash
+python3 cambiar_mes_hd.py LISTA_HD.pdf LISTA_HD_OCTUBRE.pdf
+```
+
+El mes está escrito de dos maneras distintas en el mismo archivo:
+
+- **En la tapa**, letra por letra: cada glifo es su propio bloque `BT..ET` **y su propio
+  content stream** —la página tiene dieciséis—, que es como se consigue ese espaciado ancho.
+  Hay que rehacer el renglón entero y volver a centrarlo, porque el mes nuevo mide distinto.
+  El tracking sale de restarle a la distancia entre dos letras el avance de la primera; no se
+  estima.
+- **En el encabezado de las páginas 2 a 14**, como un único `TJ` con todos los CID pegados y
+  alineado a la izquierda: ahí alcanza con reemplazar la cadena de CIDs, porque sin
+  posicionamiento por glifo el ancho lo resuelve la fuente.
+
+Los subsets ya traen los glifos de OCTUBRE, y el script lo verifica antes de escribir.
+
+El control es doble: el diff por página tiene que caer sólo sobre el mes, y la capa de texto
+con el mes normalizado tiene que quedar idéntica a la del original.
