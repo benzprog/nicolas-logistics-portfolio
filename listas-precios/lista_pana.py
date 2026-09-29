@@ -14,6 +14,7 @@ Reglas de los datos, que no se negocian:
   extracción, y los códigos del proveedor no se publican.
 """
 import base64
+import io
 import json
 import pathlib
 import subprocess
@@ -45,9 +46,23 @@ def pesos(n):
     return "$ " + f"{n:,}".replace(",", ".")
 
 
+# la foto se imprime a 24 mm de ancho: a 300 ppp son ~285 px. Embeberlas al tamaño original
+# dejaba un PDF de 11 MB, imposible de mandar por mail o WhatsApp, sin ninguna ganancia visible.
+ANCHO_FOTO_PX = 300
+_cache = {}
+
+
 def uri(ruta):
-    tipo = "png" if ruta.suffix == ".png" else "jpeg"
-    return f"data:image/{tipo};base64,{base64.b64encode(ruta.read_bytes()).decode()}"
+    if ruta not in _cache:
+        from PIL import Image
+        im = Image.open(ruta)
+        if im.width > ANCHO_FOTO_PX:
+            im = im.resize((ANCHO_FOTO_PX, round(im.height * ANCHO_FOTO_PX / im.width)),
+                           Image.LANCZOS)
+        buf = io.BytesIO()
+        im.save(buf, "PNG", optimize=True)
+        _cache[ruta] = f"data:image/png;base64,{base64.b64encode(buf.getvalue()).decode()}"
+    return _cache[ruta]
 
 
 crudas = json.loads(DATOS.read_text(encoding="utf-8"))
