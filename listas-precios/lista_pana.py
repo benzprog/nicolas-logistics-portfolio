@@ -33,8 +33,8 @@ RECARGO = 1.08                    # 8% sobre el precio de lista del proveedor
 MES, ANIO = "Octubre", "2026"
 VIGENCIA = "Vigente desde el 1 de octubre de 2026"
 
-# de la lista mayorista de PANA, no del proveedor
-VENTAS, CONSULTAS = "11 6288-3659", "11 4176-4205"
+# de la lista de PANA, no del proveedor. El 11 4176-4205 quedó fuera de uso.
+VENTAS = "11 6288-3659"
 MAIL = "panailuminacion@gmail.com"
 HORARIO = "Lunes a viernes de 9:30 a 16:30"
 NOTA = "Los precios no incluyen IVA"
@@ -112,11 +112,14 @@ def agrupar(items):
 def cuerpo_tabla(items):
     """Una fila por producto, todas del mismo alto y con todas sus celdas llenas.
 
-    El proveedor combina la foto y el bulto sobre el grupo de variantes (mismo artefacto en
-    otro color o temperatura). Replicar esa combinación daba filas de alturas dispares, huecos
-    en la columna del bulto y una banda alterna que se cortaba contra las fotos. Acá el dato
-    del grupo se repite en cada variante —que es a lo que corresponde— y la fila queda
-    pareja: así se ve de un vistazo dónde termina un producto y empieza el otro.
+    El proveedor combina la foto sobre el grupo de variantes (mismo artefacto en otro color o
+    temperatura). Replicar esa combinación daba filas de alturas dispares y una banda alterna
+    que se cortaba contra las fotos. Acá la foto del grupo se repite en cada variante —que es
+    a lo que corresponde— y la fila queda pareja: así se ve de un vistazo dónde termina un
+    producto y empieza el otro.
+
+    La cantidad por bulto del proveedor no se publica: acá se vende por unidad o la cantidad
+    que el cliente pida.
     """
     out, cebra = [], 0
     for f in agrupar(items):
@@ -136,9 +139,7 @@ def cuerpo_tabla(items):
             f'<td class="item">{f["item"]}</td>'
             f'<td class="desc">{f["desc"]}{det}</td>'
             f'<td class="foto">{foto}</td>'
-            f'<td class="precio">{pesos(f["precio"])}'
-            + (f'<span class="bulto">bulto x {f["bulto"]}</span>' if f["bulto"].strip() else "")
-            + '</td></tr>')
+            f'<td class="precio">{pesos(f["precio"])}</td></tr>')
     return "\n".join(out)
 
 
@@ -241,8 +242,6 @@ td.foto img {{ max-width:24mm; max-height:11.5mm; display:block; margin:0 auto }
 /* el precio, contra un filete propio y en negrita: es el dato que se busca */
 td.precio {{ width:25mm; text-align:right; font-size:10pt; font-weight:700;
              white-space:nowrap; border-left:.5pt solid {FILETE} }}
-td.precio .bulto {{ display:block; margin-top:.6mm; font-size:6.4pt; font-weight:500;
-                    letter-spacing:.1em; text-transform:uppercase; color:#8C8A85 }}
 
 tr.rubro td {{ background:{NEGRO}; color:{CLARO}; font-size:7.4pt; font-weight:600;
                letter-spacing:.26em; text-transform:uppercase; padding:3mm 3.5mm 1mm;
@@ -254,17 +253,16 @@ tr.rubro.bajada td {{ font-size:6.2pt; font-weight:400; letter-spacing:.16em;
 <div class="tapa">
   <div class="barra">
     <img src="{uri(LOGOS / 'pana_negro.png')}" alt="PANA iluminación">
-    <div class="rotulo">Mayorista</div>
+    <div class="rotulo">Precios en pesos · sin IVA</div>
   </div>
   <div class="titulo">Lista de precios<b>{MES} {ANIO}</b></div>
   <div class="filete"></div>
   <p class="bajada">{VIGENCIA}</p>
   <div class="indice">{indice}</div>
   <div class="tarjeta">
-    <h2>Todo con entrega desde stock.</h2>
+    <h2>Contamos con amplia variedad de stock.</h2>
     <div class="vias">
-      <div class="via"><span class="r">Ventas</span><span class="n">{VENTAS}</span></div>
-      <div class="via"><span class="r">Consultas</span><span class="n">{CONSULTAS}</span></div>
+      <div class="via"><span class="r">Ventas · WhatsApp</span><span class="n">{VENTAS}</span></div>
     </div>
     <div class="cta"><span>{MAIL}</span><span>{HORARIO}</span></div>
   </div>
@@ -277,8 +275,7 @@ tr.rubro.bajada td {{ font-size:6.2pt; font-weight:400; letter-spacing:.16em;
   <div class="tarjeta">
     <h2>¿Necesitás algo que no está en la lista?</h2>
     <div class="vias">
-      <div class="via"><span class="r">Ventas</span><span class="n">{VENTAS}</span></div>
-      <div class="via"><span class="r">Consultas</span><span class="n">{CONSULTAS}</span></div>
+      <div class="via"><span class="r">Ventas · WhatsApp</span><span class="n">{VENTAS}</span></div>
     </div>
     <div class="cta"><span>{MAIL}</span><span>{HORARIO}</span></div>
   </div>

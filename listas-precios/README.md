@@ -48,6 +48,7 @@ Si alguna vez se reenvía el PDF del proveedor a un tercero, esos códigos viaja
 
 ### Reglas de los datos
 
+- Un solo teléfono, el de ventas. El 11 4176-4205 quedó fuera de uso y no va en ninguna pieza.
 - Los precios salen del archivo del proveedor, uno por uno, multiplicados por el recargo.
   Ninguno se calcula a partir de otro ni se completa a ojo.
 - El orden y el agrupamiento son los del original.
@@ -66,8 +67,8 @@ Si alguna vez se reenvía el PDF del proveedor a un tercero, esos códigos viaja
 - **Banda alterna.** Con el filete solo no se distinguía dónde terminaba un producto; la
   banda lo resuelve, y para eso las fotos van con alfa: apoyadas sobre un color plano
   dejaban un recuadro visible sobre la banda.
-- **El bulto va dentro de la celda del precio.** Como columna propia quedaba vacío en 107 de
-  las 185 filas.
+- **La cantidad por bulto del proveedor no se publica.** Acá se vende por unidad o la
+  cantidad que el cliente pida, así que cualquier "bulto x N" se leería como un mínimo.
 - **Los renglones de medida van como segunda línea de la descripción**, no como fila propia.
 - **Una sola tabla, no una por sección.** Cortando en la náutica quedaba un tercio de hoja en
   blanco; la banda negra del rubro ya marca dónde empieza la otra.
