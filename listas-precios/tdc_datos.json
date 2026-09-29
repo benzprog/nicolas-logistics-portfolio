@@ -30,6 +30,7 @@
   "bulto": "10",
   "costo": 7589,
   "celda": "p2_131",
+  "celda_bulto": "b2_131",
   "foto": "p2_131.png"
  },
  {
@@ -41,6 +42,7 @@
   "bulto": "10",
   "costo": 18334,
   "celda": "p2_131",
+  "celda_bulto": "b2_131",
   "foto": "p2_131.png"
  },
  {
@@ -52,6 +54,7 @@
   "bulto": "10",
   "costo": 31498,
   "celda": "p2_131",
+  "celda_bulto": "b2_131",
   "foto": "p2_131.png"
  },
  {
@@ -63,6 +66,7 @@
   "bulto": "10",
   "costo": 51379,
   "celda": "p2_160",
+  "celda_bulto": "b2_131",
   "foto": "p2_160.png"
  },
  {
@@ -74,6 +78,7 @@
   "bulto": "10",
   "costo": 80749,
   "celda": "p2_160",
+  "celda_bulto": "b2_131",
   "foto": "p2_160.png"
  },
  {
@@ -85,6 +90,7 @@
   "bulto": "10",
   "costo": 108104,
   "celda": "p2_160",
+  "celda_bulto": "b2_131",
   "foto": "p2_160.png"
  },
  {
@@ -96,6 +102,7 @@
   "bulto": "10",
   "costo": 40442,
   "celda": "p2_189",
+  "celda_bulto": "b2_131",
   "foto": "p2_189.png"
  },
  {
@@ -107,6 +114,7 @@
   "bulto": "10",
   "costo": 56108,
   "celda": "p2_189",
+  "celda_bulto": "b2_131",
   "foto": "p2_189.png"
  },
  {
@@ -118,6 +126,7 @@
   "bulto": "10",
   "costo": 41145,
   "celda": "p2_208",
+  "celda_bulto": "b2_131",
   "foto": "p2_208.png"
  },
  {
@@ -129,6 +138,7 @@
   "bulto": "10",
   "costo": 19049,
   "celda": "p2_233",
+  "celda_bulto": "b2_131",
   "foto": "p2_233.png"
  },
  {
@@ -140,6 +150,7 @@
   "bulto": "",
   "costo": 6600,
   "celda": "p2_261",
+  "celda_bulto": "",
   "foto": "p2_261.png"
  },
  {
@@ -151,6 +162,7 @@
   "bulto": "",
   "costo": 6893,
   "celda": "p2_261",
+  "celda_bulto": "",
   "foto": "p2_261.png"
  },
  {
@@ -162,6 +174,7 @@
   "bulto": "",
   "costo": 11147,
   "celda": "p2_289",
+  "celda_bulto": "",
   "foto": "p2_289.png"
  },
  {
@@ -173,6 +186,7 @@
   "bulto": "",
   "costo": 11410,
   "celda": "p2_289",
+  "celda_bulto": "",
   "foto": "p2_289.png"
  },
  {
@@ -184,6 +198,7 @@
   "bulto": "",
   "costo": 11731,
   "celda": "p2_316",
+  "celda_bulto": "",
   "foto": "p2_316.png"
  },
  {
@@ -195,6 +210,7 @@
   "bulto": "",
   "costo": 11871,
   "celda": "p2_316",
+  "celda_bulto": "",
   "foto": "p2_316.png"
  },
  {
@@ -206,6 +222,7 @@
   "bulto": "",
   "costo": 6600,
   "celda": "p2_343",
+  "celda_bulto": "",
   "foto": "p2_343.png"
  },
  {
@@ -217,6 +234,7 @@
   "bulto": "",
   "costo": 7078,
   "celda": "p2_343",
+  "celda_bulto": "",
   "foto": "p2_343.png"
  },
  {
@@ -228,6 +246,7 @@
   "bulto": "",
   "costo": 9916,
   "celda": "p2_380",
+  "celda_bulto": "",
   "foto": "p2_380.png"
  },
  {
@@ -239,6 +258,7 @@
   "bulto": "",
   "costo": 10227,
   "celda": "p2_380",
+  "celda_bulto": "",
   "foto": "p2_380.png"
  },
  {
@@ -250,6 +270,7 @@
   "bulto": "",
   "costo": 10144,
   "celda": "p2_417",
+  "celda_bulto": "",
   "foto": "p2_417.png"
  },
  {
@@ -261,6 +282,7 @@
   "bulto": "",
   "costo": 10650,
   "celda": "p2_417",
+  "celda_bulto": "",
   "foto": "p2_417.png"
  },
  {
@@ -272,6 +294,7 @@
   "bulto": "",
   "costo": 6173,
   "celda": "p2_453",
+  "celda_bulto": "",
   "foto": "p2_453.png"
  },
  {
@@ -283,6 +306,7 @@
   "bulto": "",
   "costo": 6910,
   "celda": "p2_478",
+  "celda_bulto": "",
   "foto": "p2_478.png"
  },
  {
@@ -294,6 +318,7 @@
   "bulto": "",
   "costo": 7802,
   "celda": "p2_502",
+  "celda_bulto": "",
   "foto": "p2_502.png"
  },
  {
@@ -305,6 +330,7 @@
   "bulto": "",
   "costo": 2747,
   "celda": "p2_541",
+  "celda_bulto": "",
   "foto": "p2_541.png"
  },
  {
@@ -316,6 +342,7 @@
   "bulto": "",
   "costo": 11996,
   "celda": "p2_564",
+  "celda_bulto": "",
   "foto": "p2_564.png"
  },
  {
@@ -327,6 +354,7 @@
   "bulto": "",
   "costo": 12276,
   "celda": "p2_564",
+  "celda_bulto": "",
   "foto": "p2_564.png"
  },
  {
@@ -338,6 +366,7 @@
   "bulto": "",
   "costo": 7245,
   "celda": "p2_595",
+  "celda_bulto": "",
   "foto": "p2_595.png"
  },
  {
@@ -349,6 +378,7 @@
   "bulto": "",
   "costo": 8689,
   "celda": "p2_595",
+  "celda_bulto": "",
   "foto": "p2_595.png"
  },
  {
@@ -360,6 +390,7 @@
   "bulto": "",
   "costo": 7245,
   "celda": "p2_632",
+  "celda_bulto": "",
   "foto": "p2_632.png"
  },
  {
@@ -371,6 +402,7 @@
   "bulto": "",
   "costo": 13021,
   "celda": "p2_654",
+  "celda_bulto": "",
   "foto": "p2_654.png"
  },
  {
@@ -382,6 +414,7 @@
   "bulto": "",
   "costo": 4421,
   "celda": "p2_680",
+  "celda_bulto": "",
   "foto": "p2_680.png"
  },
  {
@@ -393,6 +426,7 @@
   "bulto": "",
   "costo": 26815,
   "celda": "p3_53",
+  "celda_bulto": "",
   "foto": "p3_53.png"
  },
  {
@@ -404,6 +438,7 @@
   "bulto": "",
   "costo": 30781,
   "celda": "p3_81",
+  "celda_bulto": "",
   "foto": "p3_81.png"
  },
  {
@@ -415,6 +450,7 @@
   "bulto": "",
   "costo": 4891,
   "celda": "p3_108",
+  "celda_bulto": "",
   "foto": "p3_108.png"
  },
  {
@@ -426,6 +462,7 @@
   "bulto": "",
   "costo": 5137,
   "celda": "p3_108",
+  "celda_bulto": "",
   "foto": "p3_108.png"
  },
  {
@@ -437,6 +474,7 @@
   "bulto": "",
   "costo": 6642,
   "celda": "p3_108",
+  "celda_bulto": "",
   "foto": "p3_108.png"
  },
  {
@@ -448,6 +486,7 @@
   "bulto": "",
   "costo": 6734,
   "celda": "p3_137",
+  "celda_bulto": "",
   "foto": "p3_137.png"
  },
  {
@@ -459,6 +498,7 @@
   "bulto": "",
   "costo": 10083,
   "celda": "p3_157",
+  "celda_bulto": "",
   "foto": "p3_157.png"
  },
  {
@@ -470,6 +510,7 @@
   "bulto": "",
   "costo": 6734,
   "celda": "p3_182",
+  "celda_bulto": "",
   "foto": "p3_182.png"
  },
  {
@@ -481,6 +522,7 @@
   "bulto": "",
   "costo": 7092,
   "celda": "p3_182",
+  "celda_bulto": "",
   "foto": "p3_182.png"
  },
  {
@@ -492,6 +534,7 @@
   "bulto": "",
   "costo": 8569,
   "celda": "p3_218",
+  "celda_bulto": "",
   "foto": "p3_218.png"
  },
  {
@@ -503,6 +546,7 @@
   "bulto": "",
   "costo": 8192,
   "celda": "p3_239",
+  "celda_bulto": "",
   "foto": "p3_239.png"
  },
  {
@@ -514,6 +558,7 @@
   "bulto": "25",
   "costo": 1695,
   "celda": "p3_261",
+  "celda_bulto": "b3_261",
   "foto": "p3_261.png"
  },
  {
@@ -525,6 +570,7 @@
   "bulto": "25",
   "costo": 2511,
   "celda": "p3_261",
+  "celda_bulto": "b3_261",
   "foto": "p3_261.png"
  },
  {
@@ -536,6 +582,7 @@
   "bulto": "25",
   "costo": 4377,
   "celda": "p3_261",
+  "celda_bulto": "b3_261",
   "foto": "p3_261.png"
  },
  {
@@ -547,6 +594,7 @@
   "bulto": "25",
   "costo": 15728,
   "celda": "p3_261",
+  "celda_bulto": "b3_261",
   "foto": "p3_261.png"
  },
  {
@@ -558,6 +606,7 @@
   "bulto": "25",
   "costo": 4285,
   "celda": "p3_316",
+  "celda_bulto": "b3_261",
   "foto": "p3_316.png"
  },
  {
@@ -569,6 +618,7 @@
   "bulto": "25",
   "costo": 4318,
   "celda": "p3_341",
+  "celda_bulto": "b3_261",
   "foto": "p3_341.png"
  },
  {
@@ -580,6 +630,7 @@
   "bulto": "25",
   "costo": 7541,
   "celda": "p3_341",
+  "celda_bulto": "b3_261",
   "foto": "p3_341.png"
  },
  {
@@ -591,6 +642,7 @@
   "bulto": "25",
   "costo": 428,
   "celda": "p3_377",
+  "celda_bulto": "b3_261",
   "foto": "p3_377.png"
  },
  {
@@ -602,6 +654,7 @@
   "bulto": "25",
   "costo": 765,
   "celda": "p3_377",
+  "celda_bulto": "b3_261",
   "foto": "p3_377.png"
  },
  {
@@ -613,6 +666,7 @@
   "bulto": "25",
   "costo": 7870,
   "celda": "p3_425",
+  "celda_bulto": "b3_261",
   "foto": "p3_425.png"
  },
  {
@@ -624,6 +678,7 @@
   "bulto": "25",
   "costo": 7870,
   "celda": "p3_425",
+  "celda_bulto": "b3_261",
   "foto": "p3_425.png"
  },
  {
@@ -635,6 +690,7 @@
   "bulto": "25",
   "costo": 12457,
   "celda": "p3_459",
+  "celda_bulto": "b3_261",
   "foto": "p3_459.png"
  },
  {
@@ -646,6 +702,7 @@
   "bulto": "25",
   "costo": 15189,
   "celda": "p3_488",
+  "celda_bulto": "b3_261",
   "foto": "p3_488.png"
  },
  {
@@ -657,6 +714,7 @@
   "bulto": "25",
   "costo": 19368,
   "celda": "p3_507",
+  "celda_bulto": "b3_261",
   "foto": "p3_507.png"
  },
  {
@@ -679,6 +737,7 @@
   "bulto": "25",
   "costo": 3559,
   "celda": "p3_542",
+  "celda_bulto": "b3_542",
   "foto": "p3_542.png"
  },
  {
@@ -690,6 +749,7 @@
   "bulto": "25",
   "costo": 3250,
   "celda": "p3_560",
+  "celda_bulto": "b3_542",
   "foto": "p3_560.png"
  },
  {
@@ -701,6 +761,7 @@
   "bulto": "25",
   "costo": 5226,
   "celda": "p3_580",
+  "celda_bulto": "b3_542",
   "foto": "p3_580.png"
  },
  {
@@ -712,6 +773,7 @@
   "bulto": "25",
   "costo": 6431,
   "celda": "p3_601",
+  "celda_bulto": "b3_542",
   "foto": "p3_601.png"
  },
  {
@@ -723,6 +785,7 @@
   "bulto": "25",
   "costo": 9689,
   "celda": "p3_621",
+  "celda_bulto": "b3_542",
   "foto": "p3_621.png"
  },
  {
@@ -745,6 +808,7 @@
   "bulto": "1",
   "costo": 30428,
   "celda": "p3_652",
+  "celda_bulto": "b3_652",
   "foto": "p3_652.png"
  },
  {
@@ -756,6 +820,7 @@
   "bulto": "1",
   "costo": 28907,
   "celda": "p3_652",
+  "celda_bulto": "b3_652",
   "foto": "p3_652.png"
  },
  {
@@ -767,6 +832,7 @@
   "bulto": "1",
   "costo": 33474,
   "celda": "p3_652",
+  "celda_bulto": "b3_652",
   "foto": "p3_652.png"
  },
  {
@@ -778,6 +844,7 @@
   "bulto": "300",
   "costo": 760,
   "celda": "p3_696",
+  "celda_bulto": "b3_696",
   "foto": "p3_696.png"
  },
  {
@@ -811,6 +878,7 @@
   "bulto": "",
   "costo": 1301,
   "celda": "p4_124",
+  "celda_bulto": "",
   "foto": "p4_124.png"
  },
  {
@@ -822,6 +890,7 @@
   "bulto": "",
   "costo": 1301,
   "celda": "p4_124",
+  "celda_bulto": "",
   "foto": "p4_124.png"
  },
  {
@@ -833,6 +902,7 @@
   "bulto": "",
   "costo": 1301,
   "celda": "p4_124",
+  "celda_bulto": "",
   "foto": "p4_124.png"
  },
  {
@@ -844,6 +914,7 @@
   "bulto": "",
   "costo": 2006,
   "celda": "p4_172",
+  "celda_bulto": "",
   "foto": "p4_172.png"
  },
  {
@@ -855,6 +926,7 @@
   "bulto": "",
   "costo": 2006,
   "celda": "p4_172",
+  "celda_bulto": "",
   "foto": "p4_172.png"
  },
  {
@@ -866,6 +938,7 @@
   "bulto": "",
   "costo": 2006,
   "celda": "p4_172",
+  "celda_bulto": "",
   "foto": "p4_172.png"
  },
  {
@@ -877,6 +950,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_222",
+  "celda_bulto": "",
   "foto": "p4_222.png"
  },
  {
@@ -888,6 +962,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_222",
+  "celda_bulto": "",
   "foto": "p4_222.png"
  },
  {
@@ -899,6 +974,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_222",
+  "celda_bulto": "",
   "foto": "p4_222.png"
  },
  {
@@ -910,6 +986,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_261",
+  "celda_bulto": "",
   "foto": "p4_261.png"
  },
  {
@@ -921,6 +998,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_261",
+  "celda_bulto": "",
   "foto": "p4_261.png"
  },
  {
@@ -932,6 +1010,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_261",
+  "celda_bulto": "",
   "foto": "p4_261.png"
  },
  {
@@ -943,6 +1022,7 @@
   "bulto": "",
   "costo": 6901,
   "celda": "p4_300",
+  "celda_bulto": "",
   "foto": "p4_300.png"
  },
  {
@@ -954,6 +1034,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_300",
+  "celda_bulto": "",
   "foto": "p4_300.png"
  },
  {
@@ -965,6 +1046,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_300",
+  "celda_bulto": "",
   "foto": "p4_300.png"
  },
  {
@@ -976,6 +1058,7 @@
   "bulto": "",
   "costo": 6901,
   "celda": "p4_300",
+  "celda_bulto": "",
   "foto": "p4_300.png"
  },
  {
@@ -987,6 +1070,7 @@
   "bulto": "",
   "costo": 6901,
   "celda": "p4_300",
+  "celda_bulto": "",
   "foto": "p4_300.png"
  },
  {
@@ -998,6 +1082,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_300",
+  "celda_bulto": "",
   "foto": "p4_300.png"
  },
  {
@@ -1009,6 +1094,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_300",
+  "celda_bulto": "",
   "foto": "p4_300.png"
  },
  {
@@ -1020,6 +1106,7 @@
   "bulto": "",
   "costo": 6901,
   "celda": "p4_300",
+  "celda_bulto": "",
   "foto": "p4_300.png"
  },
  {
@@ -1031,6 +1118,7 @@
   "bulto": "",
   "costo": 5751,
   "celda": "p4_377",
+  "celda_bulto": "",
   "foto": "p4_377.png"
  },
  {
@@ -1042,6 +1130,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_377",
+  "celda_bulto": "",
   "foto": "p4_377.png"
  },
  {
@@ -1053,6 +1142,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_377",
+  "celda_bulto": "",
   "foto": "p4_377.png"
  },
  {
@@ -1064,6 +1154,7 @@
   "bulto": "",
   "costo": 5751,
   "celda": "p4_377",
+  "celda_bulto": "",
   "foto": "p4_377.png"
  },
  {
@@ -1075,6 +1166,7 @@
   "bulto": "",
   "costo": 7393,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1086,6 +1178,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1097,6 +1190,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1108,6 +1202,7 @@
   "bulto": "",
   "costo": 7393,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1119,6 +1214,7 @@
   "bulto": "",
   "costo": 7393,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1130,6 +1226,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1141,6 +1238,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1152,6 +1250,7 @@
   "bulto": "",
   "costo": 7393,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1163,6 +1262,7 @@
   "bulto": "",
   "costo": 7393,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1174,6 +1274,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1185,6 +1286,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1196,6 +1298,7 @@
   "bulto": "",
   "costo": 7393,
   "celda": "p4_416",
+  "celda_bulto": "",
   "foto": "p4_416.png"
  },
  {
@@ -1207,6 +1310,7 @@
   "bulto": "",
   "costo": 11203,
   "celda": "p4_531",
+  "celda_bulto": "",
   "foto": "p4_531.png"
  },
  {
@@ -1218,6 +1322,7 @@
   "bulto": "",
   "costo": 13155,
   "celda": "p4_583",
+  "celda_bulto": "",
   "foto": "p4_583.png"
  },
  {
@@ -1229,6 +1334,7 @@
   "bulto": "",
   "costo": 13100,
   "celda": "p4_637",
+  "celda_bulto": "",
   "foto": "p4_637.png"
  },
  {
@@ -1240,6 +1346,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_637",
+  "celda_bulto": "",
   "foto": "p4_637.png"
  },
  {
@@ -1251,6 +1358,7 @@
   "bulto": "",
   "costo": 13100,
   "celda": "p4_637",
+  "celda_bulto": "",
   "foto": "p4_637.png"
  },
  {
@@ -1262,6 +1370,7 @@
   "bulto": "",
   "costo": 10642,
   "celda": "p4_675",
+  "celda_bulto": "",
   "foto": "p4_675.png"
  },
  {
@@ -1273,6 +1382,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_675",
+  "celda_bulto": "",
   "foto": "p4_675.png"
  },
  {
@@ -1284,6 +1394,7 @@
   "bulto": "",
   "costo": null,
   "celda": "p4_675",
+  "celda_bulto": "",
   "foto": "p4_675.png"
  },
  {
@@ -1295,6 +1406,7 @@
   "bulto": "",
   "costo": 10642,
   "celda": "p4_675",
+  "celda_bulto": "",
   "foto": "p4_675.png"
  },
  {
@@ -1306,6 +1418,7 @@
   "bulto": "",
   "costo": 29311,
   "celda": "p5_72",
+  "celda_bulto": "",
   "foto": "p5_72.png"
  },
  {
@@ -1317,6 +1430,7 @@
   "bulto": "",
   "costo": 25920,
   "celda": "p5_110",
+  "celda_bulto": "",
   "foto": "p5_110.png"
  },
  {
@@ -1328,6 +1442,7 @@
   "bulto": "",
   "costo": 14169,
   "celda": "p5_138",
+  "celda_bulto": "",
   "foto": "p5_138.png"
  },
  {
@@ -1339,6 +1454,7 @@
   "bulto": "",
   "costo": 5589,
   "celda": "p5_176",
+  "celda_bulto": "",
   "foto": "p5_176.png"
  },
  {
@@ -1350,6 +1466,7 @@
   "bulto": "",
   "costo": 10518,
   "celda": "p5_213",
+  "celda_bulto": "",
   "foto": "p5_213.png"
  },
  {
@@ -1361,6 +1478,7 @@
   "bulto": "",
   "costo": 8139,
   "celda": "p5_250",
+  "celda_bulto": "",
   "foto": "p5_250.png"
  },
  {
@@ -1372,6 +1490,7 @@
   "bulto": "",
   "costo": 8139,
   "celda": "p5_250",
+  "celda_bulto": "",
   "foto": "p5_250.png"
  },
  {
@@ -1383,6 +1502,7 @@
   "bulto": "",
   "costo": 8139,
   "celda": "p5_250",
+  "celda_bulto": "",
   "foto": "p5_250.png"
  },
  {
@@ -1394,6 +1514,7 @@
   "bulto": "",
   "costo": 8139,
   "celda": "p5_250",
+  "celda_bulto": "",
   "foto": "p5_250.png"
  },
  {
@@ -1405,6 +1526,7 @@
   "bulto": "",
   "costo": 8139,
   "celda": "p5_250",
+  "celda_bulto": "",
   "foto": "p5_250.png"
  },
  {
@@ -1416,6 +1538,7 @@
   "bulto": "",
   "costo": 8139,
   "celda": "p5_250",
+  "celda_bulto": "",
   "foto": "p5_250.png"
  },
  {
@@ -1427,6 +1550,7 @@
   "bulto": "",
   "costo": 6855,
   "celda": "p5_473",
+  "celda_bulto": "",
   "foto": "p5_473.png"
  },
  {
@@ -1438,6 +1562,7 @@
   "bulto": "",
   "costo": 6855,
   "celda": "p5_473",
+  "celda_bulto": "",
   "foto": "p5_473.png"
  },
  {
@@ -1449,6 +1574,7 @@
   "bulto": "",
   "costo": 7408,
   "celda": "p5_517",
+  "celda_bulto": "",
   "foto": "p5_517.png"
  },
  {
@@ -1460,6 +1586,7 @@
   "bulto": "",
   "costo": 3779,
   "celda": "p5_538",
+  "celda_bulto": "",
   "foto": "p5_538.png"
  },
  {
@@ -1471,6 +1598,7 @@
   "bulto": "",
   "costo": 3779,
   "celda": "p5_538",
+  "celda_bulto": "",
   "foto": "p5_538.png"
  },
  {
@@ -1482,6 +1610,7 @@
   "bulto": "",
   "costo": 3779,
   "celda": "p5_538",
+  "celda_bulto": "",
   "foto": "p5_538.png"
  },
  {
@@ -1493,6 +1622,7 @@
   "bulto": "",
   "costo": 3779,
   "celda": "p5_538",
+  "celda_bulto": "",
   "foto": "p5_538.png"
  },
  {
@@ -1504,6 +1634,7 @@
   "bulto": "",
   "costo": 4107,
   "celda": "p5_622",
+  "celda_bulto": "",
   "foto": "p5_622.png"
  },
  {
@@ -1515,6 +1646,7 @@
   "bulto": "",
   "costo": 4107,
   "celda": "p5_622",
+  "celda_bulto": "",
   "foto": "p5_622.png"
  },
  {
@@ -1526,6 +1658,7 @@
   "bulto": "",
   "costo": 4107,
   "celda": "p5_622",
+  "celda_bulto": "",
   "foto": "p5_622.png"
  },
  {
@@ -1537,6 +1670,7 @@
   "bulto": "",
   "costo": 4107,
   "celda": "p5_622",
+  "celda_bulto": "",
   "foto": "p5_622.png"
  },
  {
@@ -1548,6 +1682,7 @@
   "bulto": "",
   "costo": 4107,
   "celda": "p5_622",
+  "celda_bulto": "",
   "foto": "p5_622.png"
  },
  {
@@ -1559,6 +1694,7 @@
   "bulto": "",
   "costo": 4107,
   "celda": "p5_622",
+  "celda_bulto": "",
   "foto": "p5_622.png"
  },
  {
@@ -1570,6 +1706,7 @@
   "bulto": "",
   "costo": 1643,
   "celda": "p6_53",
+  "celda_bulto": "",
   "foto": "p6_53.png"
  },
  {
@@ -1581,6 +1718,7 @@
   "bulto": "",
   "costo": 1643,
   "celda": "p6_53",
+  "celda_bulto": "",
   "foto": "p6_53.png"
  },
  {
@@ -1592,6 +1730,7 @@
   "bulto": "",
   "costo": 18868,
   "celda": "p6_95",
+  "celda_bulto": "",
   "foto": "p6_95.png"
  },
  {
@@ -1603,6 +1742,7 @@
   "bulto": "",
   "costo": 48886,
   "celda": "p6_123",
+  "celda_bulto": "",
   "foto": "p6_123.png"
  },
  {
@@ -1614,6 +1754,7 @@
   "bulto": "",
   "costo": 33271,
   "celda": "p6_151",
+  "celda_bulto": "",
   "foto": "p6_151.png"
  },
  {
@@ -1625,6 +1766,7 @@
   "bulto": "",
   "costo": 14610,
   "celda": "p6_180",
+  "celda_bulto": "",
   "foto": "p6_180.png"
  },
  {
@@ -1636,6 +1778,7 @@
   "bulto": "",
   "costo": 14610,
   "celda": "p6_180",
+  "celda_bulto": "",
   "foto": "p6_180.png"
  },
  {
@@ -1647,6 +1790,7 @@
   "bulto": "",
   "costo": 7068,
   "celda": "p6_227",
+  "celda_bulto": "",
   "foto": "p6_227.png"
  },
  {
@@ -1658,6 +1802,7 @@
   "bulto": "",
   "costo": 7068,
   "celda": "p6_227",
+  "celda_bulto": "",
   "foto": "p6_227.png"
  },
  {
@@ -1669,6 +1814,7 @@
   "bulto": "",
   "costo": 7068,
   "celda": "p6_227",
+  "celda_bulto": "",
   "foto": "p6_227.png"
  },
  {
@@ -1680,6 +1826,7 @@
   "bulto": "",
   "costo": 7068,
   "celda": "p6_227",
+  "celda_bulto": "",
   "foto": "p6_227.png"
  },
  {
@@ -1691,6 +1838,7 @@
   "bulto": "",
   "costo": 7068,
   "celda": "p6_227",
+  "celda_bulto": "",
   "foto": "p6_227.png"
  },
  {
@@ -1702,6 +1850,7 @@
   "bulto": "",
   "costo": 4998,
   "celda": "p6_276",
+  "celda_bulto": "",
   "foto": "p6_276.png"
  },
  {
@@ -1713,6 +1862,7 @@
   "bulto": "",
   "costo": 4998,
   "celda": "p6_276",
+  "celda_bulto": "",
   "foto": "p6_276.png"
  },
  {
@@ -1724,6 +1874,7 @@
   "bulto": "",
   "costo": 4998,
   "celda": "p6_276",
+  "celda_bulto": "",
   "foto": "p6_276.png"
  },
  {
@@ -1735,6 +1886,7 @@
   "bulto": "",
   "costo": 4998,
   "celda": "p6_276",
+  "celda_bulto": "",
   "foto": "p6_276.png"
  },
  {
@@ -1746,6 +1898,7 @@
   "bulto": "",
   "costo": 4998,
   "celda": "p6_276",
+  "celda_bulto": "",
   "foto": "p6_276.png"
  },
  {
@@ -1757,6 +1910,7 @@
   "bulto": "",
   "costo": 2340,
   "celda": "p6_327",
+  "celda_bulto": "",
   "foto": "p6_327.png"
  },
  {
@@ -1768,6 +1922,7 @@
   "bulto": "",
   "costo": 2340,
   "celda": "p6_327",
+  "celda_bulto": "",
   "foto": "p6_327.png"
  },
  {
@@ -1779,6 +1934,7 @@
   "bulto": "",
   "costo": 2557,
   "celda": "p6_349",
+  "celda_bulto": "",
   "foto": "p6_349.png"
  },
  {
@@ -1790,6 +1946,7 @@
   "bulto": "",
   "costo": 2557,
   "celda": "p6_349",
+  "celda_bulto": "",
   "foto": "p6_349.png"
  },
  {
@@ -1801,6 +1958,7 @@
   "bulto": "",
   "costo": 4768,
   "celda": "p6_373",
+  "celda_bulto": "",
   "foto": "p6_373.png"
  },
  {
@@ -1812,6 +1970,7 @@
   "bulto": "",
   "costo": 4768,
   "celda": "p6_373",
+  "celda_bulto": "",
   "foto": "p6_373.png"
  },
  {
@@ -1834,6 +1993,7 @@
   "bulto": "1",
   "costo": 311584,
   "celda": "p6_425",
+  "celda_bulto": "b6_425",
   "foto": "p6_425.png"
  },
  {
@@ -1856,6 +2016,7 @@
   "bulto": "1",
   "costo": 15221,
   "celda": "p6_466",
+  "celda_bulto": "b6_466",
   "foto": "p6_466.png"
  },
  {
@@ -1867,6 +2028,7 @@
   "bulto": "1",
   "costo": 15221,
   "celda": "p6_466",
+  "celda_bulto": "b6_466",
   "foto": "p6_466.png"
  },
  {
@@ -1878,6 +2040,7 @@
   "bulto": "1",
   "costo": 29337,
   "celda": "p6_493",
+  "celda_bulto": "b6_493",
   "foto": "p6_493.png"
  },
  {
@@ -1889,6 +2052,7 @@
   "bulto": "1",
   "costo": 70800,
   "celda": "p6_516",
+  "celda_bulto": "b6_493",
   "foto": "p6_516.png"
  },
  {
@@ -1900,6 +2064,7 @@
   "bulto": "1",
   "costo": 70800,
   "celda": "p6_546",
+  "celda_bulto": "b6_493",
   "foto": ""
  },
  {
@@ -1911,6 +2076,7 @@
   "bulto": "1",
   "costo": 36968,
   "celda": "p6_578",
+  "celda_bulto": "b6_578",
   "foto": "p6_578.png"
  },
  {
@@ -1922,6 +2088,7 @@
   "bulto": "1",
   "costo": 36968,
   "celda": "p6_578",
+  "celda_bulto": "b6_578",
   "foto": "p6_578.png"
  },
  {
@@ -1944,6 +2111,7 @@
   "bulto": "10",
   "costo": 10368,
   "celda": "p6_652",
+  "celda_bulto": "b6_652",
   "foto": "p6_652.png"
  },
  {
@@ -1955,6 +2123,7 @@
   "bulto": "10",
   "costo": 10368,
   "celda": "p6_652",
+  "celda_bulto": "b6_652",
   "foto": "p6_652.png"
  },
  {
@@ -1966,6 +2135,7 @@
   "bulto": "10",
   "costo": 20870,
   "celda": "p6_652",
+  "celda_bulto": "b6_652",
   "foto": "p6_652.png"
  },
  {
@@ -1977,6 +2147,7 @@
   "bulto": "10",
   "costo": 20870,
   "celda": "p6_652",
+  "celda_bulto": "b6_652",
   "foto": "p6_652.png"
  },
  {
@@ -1999,6 +2170,7 @@
   "bulto": "",
   "costo": 2314,
   "celda": "p6_700",
+  "celda_bulto": "",
   "foto": "p6_700.png"
  },
  {
@@ -2010,6 +2182,7 @@
   "bulto": "",
   "costo": 2314,
   "celda": "p6_700",
+  "celda_bulto": "",
   "foto": "p6_700.png"
  },
  {
@@ -2032,6 +2205,7 @@
   "bulto": "100",
   "costo": 1212,
   "celda": "p7_63",
+  "celda_bulto": "b7_63",
   "foto": "p7_63.png"
  },
  {
@@ -2043,6 +2217,7 @@
   "bulto": "100",
   "costo": 1212,
   "celda": "p7_63",
+  "celda_bulto": "b7_63",
   "foto": "p7_63.png"
  },
  {
@@ -2054,6 +2229,7 @@
   "bulto": "100",
   "costo": 1721,
   "celda": "p7_63",
+  "celda_bulto": "b7_63",
   "foto": "p7_63.png"
  },
  {
@@ -2065,6 +2241,7 @@
   "bulto": "100",
   "costo": 1721,
   "celda": "p7_63",
+  "celda_bulto": "b7_63",
   "foto": "p7_63.png"
  },
  {
@@ -2087,6 +2264,7 @@
   "bulto": "100",
   "costo": 1429,
   "celda": "p7_131",
+  "celda_bulto": "b7_131",
   "foto": "p7_131.png"
  },
  {
@@ -2098,6 +2276,7 @@
   "bulto": "100",
   "costo": 1429,
   "celda": "p7_131",
+  "celda_bulto": "b7_131",
   "foto": "p7_131.png"
  },
  {
@@ -2109,6 +2288,7 @@
   "bulto": "100",
   "costo": 1835,
   "celda": "p7_131",
+  "celda_bulto": "b7_131",
   "foto": "p7_131.png"
  },
  {
@@ -2120,6 +2300,7 @@
   "bulto": "100",
   "costo": 1835,
   "celda": "p7_131",
+  "celda_bulto": "b7_131",
   "foto": "p7_131.png"
  },
  {
@@ -2131,6 +2312,7 @@
   "bulto": "100",
   "costo": 3284,
   "celda": "p7_170",
+  "celda_bulto": "b7_170",
   "foto": "p7_170.png"
  },
  {
@@ -2142,6 +2324,7 @@
   "bulto": "100",
   "costo": 2476,
   "celda": "p7_170",
+  "celda_bulto": "b7_170",
   "foto": "p7_170.png"
  },
  {
@@ -2153,6 +2336,7 @@
   "bulto": "100",
   "costo": 1680,
   "celda": "p7_170",
+  "celda_bulto": "b7_170",
   "foto": "p7_170.png"
  },
  {
@@ -2164,6 +2348,7 @@
   "bulto": "50",
   "costo": 5520,
   "celda": "p7_199",
+  "celda_bulto": "b7_199",
   "foto": "p7_199.png"
  },
  {
@@ -2175,6 +2360,7 @@
   "bulto": "100",
   "costo": 1972,
   "celda": "p7_230",
+  "celda_bulto": "b7_230",
   "foto": "p7_230.png"
  },
  {
@@ -2186,6 +2372,7 @@
   "bulto": "50",
   "costo": 9727,
   "celda": "p7_250",
+  "celda_bulto": "b7_250",
   "foto": "p7_250.png"
  },
  {
@@ -2208,6 +2395,7 @@
   "bulto": "1",
   "costo": 80080,
   "celda": "p7_303",
+  "celda_bulto": "b7_303",
   "foto": "p7_303.png"
  },
  {
@@ -2219,6 +2407,7 @@
   "bulto": "1",
   "costo": 29430,
   "celda": "p7_343",
+  "celda_bulto": "b7_343",
   "foto": "p7_343.png"
  },
  {
@@ -2230,6 +2419,7 @@
   "bulto": "1",
   "costo": 29430,
   "celda": "p7_394",
+  "celda_bulto": "b7_394",
   "foto": "p7_394.png"
  },
  {
@@ -2241,6 +2431,7 @@
   "bulto": "1",
   "costo": 54630,
   "celda": "p7_445",
+  "celda_bulto": "b7_445",
   "foto": "p7_445.png"
  },
  {
@@ -2252,6 +2443,7 @@
   "bulto": "1",
   "costo": 54630,
   "celda": "p7_495",
+  "celda_bulto": "b7_495",
   "foto": "p7_495.png"
  },
  {
@@ -2263,6 +2455,7 @@
   "bulto": "1",
   "costo": 70789,
   "celda": "p7_546",
+  "celda_bulto": "b7_546",
   "foto": "p7_546.png"
  },
  {
@@ -2274,6 +2467,7 @@
   "bulto": "1",
   "costo": 92156,
   "celda": "p7_596",
+  "celda_bulto": "b7_596",
   "foto": "p7_596.png"
  },
  {
@@ -2285,6 +2479,7 @@
   "bulto": "1",
   "costo": 125891,
   "celda": "p7_647",
+  "celda_bulto": "b7_647",
   "foto": "p7_647.png"
  },
  {
@@ -2296,6 +2491,7 @@
   "bulto": "1",
   "costo": 249362,
   "celda": "p8_53",
+  "celda_bulto": "b8_53",
   "foto": "p8_53.png"
  },
  {
@@ -2307,6 +2503,7 @@
   "bulto": "1",
   "costo": 70275,
   "celda": "p8_104",
+  "celda_bulto": "b8_104",
   "foto": "p8_104.png"
  },
  {
@@ -2318,6 +2515,7 @@
   "bulto": "1",
   "costo": 21675,
   "celda": "p8_154",
+  "celda_bulto": "b8_154",
   "foto": "p8_154.png"
  },
  {
@@ -2329,6 +2527,7 @@
   "bulto": "1",
   "costo": 19543,
   "celda": "p8_205",
+  "celda_bulto": "b8_205",
   "foto": "p8_205.png"
  },
  {
@@ -2340,6 +2539,7 @@
   "bulto": "1",
   "costo": 16956,
   "celda": "p8_256",
+  "celda_bulto": "b8_256",
   "foto": "p8_256.png"
  },
  {
@@ -2351,6 +2551,7 @@
   "bulto": "1",
   "costo": 30330,
   "celda": "p8_306",
+  "celda_bulto": "b8_306",
   "foto": "p8_306.png"
  },
  {
@@ -2362,6 +2563,7 @@
   "bulto": "1",
   "costo": 33718,
   "celda": "p8_357",
+  "celda_bulto": "b8_357",
   "foto": "p8_357.png"
  },
  {
@@ -2373,6 +2575,7 @@
   "bulto": "1",
   "costo": 6175,
   "celda": "p8_408",
+  "celda_bulto": "b8_408",
   "foto": "p8_408.png"
  },
  {
@@ -2384,6 +2587,7 @@
   "bulto": "1",
   "costo": 1292,
   "celda": "p8_458",
+  "celda_bulto": "b8_458",
   "foto": "p8_458.png"
  },
  {
@@ -2395,6 +2599,7 @@
   "bulto": "1",
   "costo": 4838,
   "celda": "p8_509",
+  "celda_bulto": "b8_509",
   "foto": "p8_509.png"
  },
  {
@@ -2406,6 +2611,7 @@
   "bulto": "1",
   "costo": 18352,
   "celda": "p8_560",
+  "celda_bulto": "b8_560",
   "foto": "p8_560.png"
  }
 ]

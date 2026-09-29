@@ -56,8 +56,31 @@ Si alguna vez se reenvía el PDF del proveedor a un tercero, esos códigos viaja
 - El cierre verifica que cada precio del PDF entregado sea un precio del proveedor por el
   recargo, sin faltantes ni sobrantes.
 
+### Decisiones de maquetación
+
+- **Una fila por producto, todas del mismo alto.** El proveedor combina la foto y el bulto
+  sobre el grupo de variantes (mismo artefacto en otro color o temperatura). Replicar esa
+  combinación daba filas de alturas dispares, huecos en la columna del bulto y una banda
+  alterna que se cortaba contra las fotos. El dato del grupo se repite en cada variante —que
+  es a lo que corresponde— y la fila queda pareja.
+- **Banda alterna.** Con el filete solo no se distinguía dónde terminaba un producto; la
+  banda lo resuelve, y para eso las fotos van con alfa: apoyadas sobre un color plano
+  dejaban un recuadro visible sobre la banda.
+- **El bulto va dentro de la celda del precio.** Como columna propia quedaba vacío en 107 de
+  las 185 filas.
+- **Los renglones de medida van como segunda línea de la descripción**, no como fila propia.
+- **Una sola tabla, no una por sección.** Cortando en la náutica quedaba un tercio de hoja en
+  blanco; la banda negra del rubro ya marca dónde empieza la otra.
+
 ### Las fotos
 
-Se extraen del PDF y se apoyan sobre el hueso del documento. Se reemplaza **sólo el fondo
+Se extraen del PDF y se recortan con el fondo transparente. Se saca **sólo el fondo
 conectado al borde**, tomando el color del propio marco como referencia: con un umbral fijo
 de "todo lo casi blanco", los productos cromados y los blancos quedan agujereados por dentro.
+
+Cinco fotos del proveedor tienen fondo de color, un marco negro o son tomas de packaging:
+ahí no hay fondo que sacar sin romper la imagen y se dejan opacas.
+
+`reemplazar_fotos.py` cambia fotos puntuales por versiones de mejor calidad. El destino se
+identifica por el archivo que generó la extracción, no por el número de ítem: una misma foto
+sirve a varias variantes, así que reemplazándola se actualizan todas juntas.

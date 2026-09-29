@@ -11,10 +11,11 @@ Sobre `leer_tdc.py` agrega tres cosas:
 - **Asocia las fotos.** La celda de la foto está combinada sobre varias filas; se calcula
   su tramo con las mismas reglas de la grilla y la foto se cuelga del primer producto del
   tramo, indicando cuántas filas abarca.
-- **Exporta las fotos recortadas y apoyadas sobre el fondo de la pieza.** Vienen con borde
-  blanco sucio: se recorta el margen y el blanco se reemplaza por el hueso del documento,
-  pero **sólo el fondo conectado al borde**. Muchos productos son cromados o blancos y un
-  reemplazo de "todo lo casi blanco" les abre agujeros en el medio.
+- **Exporta las fotos recortadas y con el fondo transparente.** Vienen con borde blanco
+  sucio: se recorta el margen y el fondo pasa a alfa, pero **sólo el fondo conectado al
+  borde**. Muchos productos son cromados o blancos y sacar "todo lo casi blanco" les abre
+  agujeros en el medio. Con alfa la foto se apoya sobre cualquier fondo, que es lo que hace
+  falta cuando la tabla lleva banda alterna.
 
 No inventa ni completa nada: una banda sin precio se queda sin precio.
 """
@@ -41,11 +42,11 @@ DESCARTE = re.compile(r"^(LISTA DE PRECIOS|ITEM|DESCRIPCION|COD CHINA|W\. \+54|D
 HUESO = (240, 238, 230)     # el fondo del documento de PANA
 
 
-def recortar(pil, fondo=HUESO):
-    """Recorta el marco y apoya la foto sobre el fondo del documento.
+def recortar(pil, fondo=None):
+    """Recorta el marco y deja el fondo transparente (o plano, si se pide un color).
 
-    Sólo se reemplaza el blanco **conectado al borde**: si se cambiara todo lo casi blanco,
-    los productos cromados y los blancos quedarían agujereados por dentro.
+    Sólo se saca el fondo **conectado al borde**: si se sacara todo lo casi blanco, los
+    productos cromados y los blancos quedarían agujereados por dentro.
     """
     a = np.asarray(pil.convert("RGB")).astype(int)
     # el fondo no siempre es blanco: hay fotos sobre gris o crema. Se toma el color del
@@ -67,9 +68,12 @@ def recortar(pil, fondo=HUESO):
     borde.discard(0)
     exterior = np.isin(etiq, list(borde))
     # un desvanecido de un píxel para que el recorte no quede dentado
-    alfa = ndimage.gaussian_filter(exterior.astype(float), 0.6)[..., None]
-    a = a * (1 - alfa) + np.array(fondo) * alfa
-    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGB")
+    alfa = ndimage.gaussian_filter(exterior.astype(float), 0.6)
+    if fondo is not None:
+        mezcla = a * (1 - alfa[..., None]) + np.array(fondo) * alfa[..., None]
+        return Image.fromarray(np.clip(mezcla, 0, 255).astype(np.uint8), "RGB")
+    rgba = np.dstack([np.clip(a, 0, 255), (1 - alfa) * 255])
+    return Image.fromarray(rgba.astype(np.uint8), "RGBA")
 
 
 def extraer(ruta):
@@ -161,6 +165,7 @@ def extraer(ruta):
                 filas.append({"pagina": n, "orden": arriba, "tipo": tipo, "item": it, "desc": d,
                               "bulto": bu, "costo": monto,
                               "celda": f"p{n}_{int(tf[0])}" if tf else "",
+                              "celda_bulto": f"b{n}_{int(tb[0])}" if tb else "",
                               "foto": guardadas.get(tf, "")})
     filas.sort(key=lambda f: (f["pagina"], f["orden"]))
     return filas

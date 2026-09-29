@@ -80,47 +80,52 @@ RESUMEN = [
 ]
 
 
-def cuerpo_tabla(items):
-    """Arma las filas respetando las celdas de foto combinadas.
+def agrupar(items):
+    """Cada producto se queda con los renglones de medida que lo siguen.
 
-    El `rowspan` se calcula acá y no en la extracción: recién al maquetar se sabe cuántas
-    filas sobreviven dentro de cada celda de foto, porque los discontinuados y sus
-    renglones de detalle ya salieron. Contarlas antes descoloca las columnas.
+    En la lista del proveedor esos renglones ocupan una fila propia casi vacía. Acá van como
+    segunda línea de la descripción: es donde están en el original y la tabla no queda con
+    huecos.
     """
-    span = {}
+    salida = []
     for f in items:
-        if f.get("celda", ""):
-            span[f.get("celda", "")] = span.get(f.get("celda", ""), 0) + 1
+        if f["tipo"] == "detalle" and salida and salida[-1]["tipo"] == "producto":
+            salida[-1].setdefault("detalles", []).append(f["desc"])
+        else:
+            salida.append(dict(f))
+    return salida
 
-    out, restantes, puesta = [], 0, set()
-    for f in items:
-        dentro = bool(f.get("celda", "")) and restantes > 0 and f.get("celda", "") in puesta
+
+def cuerpo_tabla(items):
+    """Una fila por producto, todas del mismo alto y con todas sus celdas llenas.
+
+    El proveedor combina la foto y el bulto sobre el grupo de variantes (mismo artefacto en
+    otro color o temperatura). Replicar esa combinación daba filas de alturas dispares, huecos
+    en la columna del bulto y una banda alterna que se cortaba contra las fotos. Acá el dato
+    del grupo se repite en cada variante —que es a lo que corresponde— y la fila queda
+    pareja: así se ve de un vistazo dónde termina un producto y empieza el otro.
+    """
+    out, cebra = [], 0
+    for f in agrupar(items):
         if f["tipo"] == "rubro":
             clase = "rubro bajada" if out and 'class="rubro' in out[-1] else "rubro"
-            out.append(f'<tr class="{clase}"><td colspan="5">{f["desc"]}</td></tr>')
+            out.append(f'<tr class="{clase}"><td colspan="4">{f["desc"]}</td></tr>')
+            cebra = 0
             continue
-        if dentro:
-            restantes -= 1
 
-        celdas = [f'<td class="item">{f["item"]}</td>']
-        if f["tipo"] == "detalle":
-            celdas.append(f'<td class="desc">{f["desc"]}</td>')
-        else:
-            celdas.append(f'<td class="desc">{f["desc"]}</td>')
-        if not dentro:
-            if f.get("foto", "") and (FOTOS / f.get("foto", "")).exists() and f.get("celda", "") not in puesta:
-                n = span.get(f.get("celda", ""), 1)
-                puesta.add(f.get("celda", ""))
-                restantes = n - 1
-                rs = f' rowspan="{n}"' if n > 1 else ""
-                celdas.append(f'<td class="foto"{rs}><img src="{uri(FOTOS / f.get("foto", ""))}"></td>')
-            else:
-                celdas.append('<td class="foto"></td>')
-        celdas.append(f'<td class="bulto">{f["bulto"]}</td>')
-        celdas.append('<td class="precio">' +
-                      (pesos(f["precio"]) if f["tipo"] == "producto" else "") + '</td>')
-        clase = ' class="detalle"' if f["tipo"] == "detalle" else ""
-        out.append(f"<tr{clase}>" + "".join(celdas) + "</tr>")
+        cebra += 1
+        det = "".join(f'<span class="det">{d}</span>' for d in f.get("detalles", []))
+        foto = ""
+        if f.get("foto") and (FOTOS / f["foto"]).exists():
+            foto = f'<img src="{uri(FOTOS / f["foto"])}">'
+        out.append(
+            f'<tr class="{"par" if cebra % 2 == 0 else "impar"}">'
+            f'<td class="item">{f["item"]}</td>'
+            f'<td class="desc">{f["desc"]}{det}</td>'
+            f'<td class="foto">{foto}</td>'
+            f'<td class="precio">{pesos(f["precio"])}'
+            + (f'<span class="bulto">bulto x {f["bulto"]}</span>' if f["bulto"].strip() else "")
+            + '</td></tr>')
     return "\n".join(out)
 
 
@@ -128,18 +133,19 @@ resumen_html = "".join(
     f'<div class="fila"><span class="rot">{r}</span><span class="val">{v}</span></div>'
     for r, v in RESUMEN)
 
-tablas = "".join(
-    f'''<section class="hoja">
+# una sola tabla y no una por sección: cortando en la sección náutica quedaba un tercio de
+# hoja en blanco, y la banda negra del rubro ya marca de sobra dónde empieza la otra.
+tablas = f'''<section class="hoja">
   <table>
     <thead><tr>
       <th class="item">Ítem</th><th class="desc">Descripción</th><th class="foto"></th>
-      <th class="bulto">Bulto</th><th class="precio">Precio</th>
+      <th class="precio">Precio</th>
     </tr></thead>
-    <tfoot><tr><td colspan="3">{NOTA}</td>
-      <td colspan="2" class="der">PANA iluminación · {VENTAS}</td></tr></tfoot>
-    <tbody>{cuerpo_tabla(items)}</tbody>
+    <tfoot><tr><td colspan="2">{NOTA}</td>
+      <td colspan="2" class="der">PANA iluminación · WhatsApp {VENTAS}</td></tr></tfoot>
+    <tbody>{cuerpo_tabla(filas)}</tbody>
   </table>
-</section>''' for items in secciones.values())
+</section>'''
 
 HTML = f"""<!doctype html><html lang="es"><meta charset="utf-8"><title>Lista PANA</title><style>
 {ARCHIVO}
@@ -177,35 +183,49 @@ body {{ font-family:'Archivo',sans-serif; color:{NEGRO}; background:{HUESO}; fon
         justify-content:space-between; padding:4.4mm 10mm; font-size:8pt; font-weight:600;
         letter-spacing:.22em; text-transform:uppercase }}
 
+/* el cierre llena el pie de la última hoja, que si no termina a media página */
+.cierre {{ padding:6mm 14mm 0 }}
+
 /* ── tablas ── */
 .hoja {{ page-break-before:always; padding:0 14mm }}
 table {{ width:100%; border-collapse:collapse }}
 thead {{ display:table-header-group }}
-th {{ font-size:6.6pt; font-weight:500; letter-spacing:.26em; text-transform:uppercase;
-      color:{GRIS}; text-align:left; padding:15mm 2mm 2.2mm; border-bottom:.9pt solid {NEGRO} }}
+th {{ font-size:6.6pt; font-weight:600; letter-spacing:.26em; text-transform:uppercase;
+      color:{GRIS}; text-align:left; padding:15mm 2.5mm 2.4mm; border-bottom:1pt solid {NEGRO} }}
+th.precio {{ text-align:right }}
 tfoot {{ display:table-footer-group }}
-tfoot td {{ height:13mm; border:none; vertical-align:bottom; padding:0 2mm 5mm;
-            font-size:6.4pt; letter-spacing:.14em; text-transform:uppercase;
-            color:#A5A39F }}
+tfoot td {{ height:13mm; border:none; vertical-align:bottom; padding:0 2.5mm 5mm;
+            font-size:6.2pt; letter-spacing:.1em; text-transform:uppercase;
+            color:#A5A39F; white-space:nowrap }}
 tfoot .der {{ text-align:right }}
-th.precio, th.bulto {{ text-align:right }}
-tr {{ page-break-inside:avoid }}
-td {{ padding:1.6mm 2mm; border-bottom:.5pt solid {FILETE}; vertical-align:middle }}
-td.item {{ width:12mm; font-size:7pt; color:{GRIS}; font-weight:500 }}
-td.desc {{ font-size:8pt; font-weight:400; line-height:1.3 }}
-td.foto {{ width:26mm; text-align:center; padding:1mm }}
-td.foto img {{ max-width:24mm; max-height:17mm; display:inline-block }}
-td.bulto {{ width:13mm; text-align:right; font-size:7.4pt; color:{GRIS} }}
-td.precio {{ width:22mm; text-align:right; font-size:9pt; font-weight:600;
-             white-space:nowrap }}
 
-tr.rubro td {{ background:{NEGRO}; color:{CLARO}; font-size:7pt; font-weight:600;
-               letter-spacing:.26em; text-transform:uppercase; padding:2.6mm 3mm;
+tr {{ page-break-inside:avoid }}
+td {{ padding:1.7mm 2.5mm; border-bottom:.5pt solid {FILETE}; vertical-align:middle;
+      height:13mm }}
+
+/* la banda alterna es lo que deja claro dónde termina un producto y empieza el otro:
+   con filas de alto distinto —las que llevan foto son más altas— el filete solo no alcanza */
+tr.par td {{ background:#E7E3DA }}
+
+td.item {{ width:13mm; font-size:7.4pt; color:#77756F; font-weight:600;
+           letter-spacing:.04em }}
+td.desc {{ font-size:8.8pt; font-weight:500; line-height:1.28 }}
+td.desc .det {{ display:block; margin-top:.8mm; font-size:7.2pt; font-weight:400;
+                color:#7C7A75 }}
+td.foto {{ width:26mm; text-align:center; padding:1mm }}
+td.foto img {{ max-width:24mm; max-height:11.5mm; display:block; margin:0 auto }}
+td.precio .bulto {{ display:block; margin-top:.6mm; font-size:6.4pt; font-weight:500;
+                    letter-spacing:.1em; text-transform:uppercase; color:#8C8A85 }}
+
+/* el precio, contra un filete propio y en negrita: es el dato que se busca */
+td.precio {{ width:25mm; text-align:right; font-size:10pt; font-weight:700;
+             white-space:nowrap; border-left:.5pt solid {FILETE} }}
+
+tr.rubro td {{ background:{NEGRO}; color:{CLARO}; font-size:7.4pt; font-weight:600;
+               letter-spacing:.26em; text-transform:uppercase; padding:3mm 3.5mm 1mm;
                border-bottom:none; text-indent:.26em }}
 tr.rubro.bajada td {{ font-size:6.2pt; font-weight:400; letter-spacing:.16em;
-                      color:#9A9894; padding:0 3mm 2.8mm; text-indent:.16em }}
-tr.detalle td {{ font-size:7pt; font-weight:400; color:{GRIS}; padding:1mm 2mm;
-                 border-bottom:.5pt solid {FILETE} }}
+                      color:#9A9894; padding:0 3.5mm 3mm; text-indent:.16em }}
 </style>
 
 <div class="tapa">
@@ -228,6 +248,17 @@ tr.detalle td {{ font-size:7pt; font-weight:400; color:{GRIS}; padding:1mm 2mm;
 </div>
 
 {tablas}
+
+<div class="cierre">
+  <div class="tarjeta">
+    <h2>¿Necesitás algo que no está en la lista?</h2>
+    <div class="vias">
+      <div class="via"><span class="r">Ventas</span><span class="n">{VENTAS}</span></div>
+      <div class="via"><span class="r">Consultas</span><span class="n">{CONSULTAS}</span></div>
+    </div>
+    <div class="cta"><span>{MAIL}</span><span>{HORARIO}</span></div>
+  </div>
+</div>
 </html>"""
 
 if __name__ == "__main__":
