@@ -29,3 +29,14 @@ vuelta del stream se verificó idéntico al pixel antes de empezar a tocar nada.
   invertir el rayado de todo lo que queda debajo, y también el verde de la celda
   STOCK, que tiene un tono para la fila gris y otro para la blanca.
 - Los huecos entre grupos de productos son separadores, no sobrantes: se respetan.
+
+## Lo que queda pendiente
+
+Las cinco filas nuevas están con foto y título; **código, bulto, precio, x500, IVA
+y stock quedaron vacíos a pedido del cliente**, para completarlos cuando tenga los
+datos. Se cargan en la tabla `PRODUCTOS` de `agregar_12v.py` y se vuelve a correr.
+La celda de STOCK de una fila sin dato no se pinta: el verde aparece recién cuando
+hay stock cargado, así se ve de un vistazo qué falta.
+
+También quedó sin resolver si la medida `6x6x3` de la Luz Led Cortesía está en cm
+o en mm, y si corresponde a la foto que llegó (un óvalo de proporción 3 a 1).

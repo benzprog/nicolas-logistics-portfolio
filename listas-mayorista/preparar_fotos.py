@@ -45,6 +45,11 @@ def recortar(im):
 def preparar(nombre, ancho_pt, alto_pt):
     """Recorta, ajusta a la caja en puntos y guarda el JPEG listo para incrustar."""
     im = recortar(Image.open(FOTOS / nombre))
+    if im.mode in ("RGBA", "LA", "P"):
+        # componer sobre blanco antes de pasar a RGB: `convert` solo —sin componer—
+        # tira el alfa y deja el fondo en negro, que es como salieron las primeras
+        im = Image.alpha_composite(Image.new("RGBA", im.size, "white"),
+                                   im.convert("RGBA"))
     escala = min(ancho_pt / im.width, alto_pt / im.height)
     px = (max(1, round(im.width * escala * PPP / 72)),
           max(1, round(im.height * escala * PPP / 72)))

@@ -75,8 +75,19 @@ class Fila:
 
 # ── la sección nueva ─────────────────────────────────────────────────────────
 # La primera fila es la que se muda desde ARTEFACTOS, copiada palabra por palabra
-# del original (incluidas sus negritas y su foto, /Image47).
+# del original (incluidas sus negritas y su foto, /Image47). Las otras cinco son
+# los productos nuevos: por ahora van con foto y título, y las celdas de código,
+# bulto, precio, x500, IVA y stock quedan vacías para completarlas después. Vacío
+# es vacío: no se pone un guion ni un "a confirmar" que después haya que cazar.
+#
+# Las fotos llegaron renombradas 10 a 13 y se perdieron los nombres que las
+# identificaban, así que la asignación sale del orden en que se pidieron los
+# productos. Dos de las cuatro se confirman solas por lo que se ve: la 11 es el
+# único panel chato y redondo, y la 13 es el único óvalo cromado. Eso respalda que
+# las otras dos sigan el mismo orden. Los dos "Redondo" comparten foto porque
+# tienen exactamente las mismas medidas: es el mismo artefacto con dos títulos.
 SECCION = "PRODUCTOS 12 VOLTS"
+VACIO = ""
 PRODUCTOS = [
     Fila(codigo="TZ-SPOT12V-3W-NG-3K",
          desc=[[("Spot Cabezal ", R), ("12V", N), (" 3W Aluminio Negro ", R),
@@ -84,6 +95,32 @@ PRODUCTOS = [
                [("25x50mm", R)]],
          bulto="400", precio="USD 4,90", x500="USD 4,70", iva="21%",
          stock=["15 ", "DÍAS"], foto="/Image47"),
+
+    Fila(codigo=VACIO,
+         desc=[[("Mini Spot 12V TENARUZ", R)]],
+         bulto=VACIO, precio=VACIO, x500=VACIO, iva=VACIO, stock=VACIO,
+         foto="10.webp"),
+
+    Fila(codigo=VACIO,
+         desc=[[("Spot Panel Led Embutir 12V 3W", R)], [("70 x 58 x 12mm", R)]],
+         bulto=VACIO, precio=VACIO, x500=VACIO, iva=VACIO, stock=VACIO,
+         foto="11.webp"),
+
+    Fila(codigo=VACIO,
+         desc=[[("Mini Spot Panel Led Redondo 12V 1W", R)], [("20 x 25 x 15mm", R)]],
+         bulto=VACIO, precio=VACIO, x500=VACIO, iva=VACIO, stock=VACIO,
+         foto="12.webp"),
+
+    Fila(codigo=VACIO,
+         desc=[[("Mini Spot Panel Led Redondo 12V 1W", R)],
+               [("Casa Rodante Motorhome - 20 x 25 x 15mm", R)]],
+         bulto=VACIO, precio=VACIO, x500=VACIO, iva=VACIO, stock=VACIO,
+         foto="12.webp"),
+
+    Fila(codigo=VACIO,
+         desc=[[("Luz Led Cortesía 12V 0,5W", R)], [("6x6x3", R)]],
+         bulto=VACIO, precio=VACIO, x500=VACIO, iva=VACIO, stock=VACIO,
+         foto="13.webp"),
 ]
 
 
@@ -102,20 +139,23 @@ def dibujar_fila(fila, piso, gris_fondo):
     if gris_fondo:
         ops += rect(FILA_X, piso, FILA_W, ALTO_FILA, GRIS)
     dos_lineas = len(fila.stock) > 1 if isinstance(fila.stock, list) else False
-    color_stock = (AMARILLO if dos_lineas else
-                   (VERDE_OSCURO if gris_fondo else VERDE_CLARO))
-    ops += rect(STOCK_X, piso, STOCK_W, ALTO_FILA, color_stock)
+    if fila.stock:
+        color_stock = (AMARILLO if dos_lineas else
+                       (VERDE_OSCURO if gris_fondo else VERDE_CLARO))
+        ops += rect(STOCK_X, piso, STOCK_W, ALTO_FILA, color_stock)
 
     base = piso + BASE_TEXTO
-    ops += T.centrado([(fila.codigo, R)], CENTRO["codigo"], base, CUERPO)
-    for col in ("bulto", "precio", "x500", "iva"):
-        ops += T.centrado([(getattr(fila, col), R)], CENTRO[col], base, CUERPO)
+    for col in ("codigo", "bulto", "precio", "x500", "iva"):
+        valor = getattr(fila, col)
+        if valor:
+            ops += T.centrado([(valor, R)], CENTRO[col], base, CUERPO)
 
     lineas = fila.desc
     for texto, y in zip(lineas, alturas(base, len(lineas))):
         ops += T.centrado(texto, CENTRO["desc"], y, CUERPO)
 
-    stock = fila.stock if isinstance(fila.stock, list) else [fila.stock]
+    stock = fila.stock if isinstance(fila.stock, list) else (
+        [fila.stock] if fila.stock else [])
     for texto, y in zip(stock, alturas(base, len(stock))):
         ops += T.centrado([(texto, R)], CENTRO["stock"], y, CUERPO)
     return ops
@@ -378,13 +418,6 @@ def construir_pagina5(pdf, modelo_pag4, fotos):
 def main():
     from leer_mayorista import leer
 
-    faltantes = {f.codigo or "(sin código)": f.falta() for f in PRODUCTOS if f.falta()}
-    if faltantes:
-        print("Faltan datos; no se escribe nada:")
-        for codigo, campos in faltantes.items():
-            print(f"  · {codigo}: {', '.join(campos)}")
-        return 1
-
     modelo = leer(ORIGEN)
     pdf = pikepdf.open(ORIGEN)
 
@@ -423,6 +456,8 @@ def main():
     for fila in PRODUCTOS:
         if not fila.foto:
             continue
+        if fila.foto in fotos:
+            continue                            # dos filas pueden compartir foto
         if fila.foto.startswith("/Image"):      # foto que ya estaba en el documento
             fuente = pdf.pages[2].obj["/Resources"]["/XObject"][fila.foto]
             xobjects[fila.foto] = fuente
@@ -446,6 +481,10 @@ def main():
 
     pdf.save(DESTINO)
     print(f"-> {DESTINO} ({len(pdf.pages)} páginas, {DESTINO.stat().st_size // 1024} KB)")
+    for fila in PRODUCTOS:
+        if fila.falta():
+            titulo = " ".join(t for t, _ in fila.desc[0])
+            print(f"   pendiente · {titulo}: {', '.join(fila.falta())}")
     return 0
 
 
